@@ -10,17 +10,15 @@ import {auth, db} from '../../firebase';
 
 
 const styles = theme => ({
-    // container: {
-    //     display: 'flex',
-    //     flexDirection: 'column',
-    //     height: '100%',
-    // },
-    // textField: {
-    //     margin: 10,
-    // },
-    // button: {
-    //     margin: theme.spacing.unit,
-    // },
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    textField: {
+    },
+    button: {
+        margin: theme.spacing.unit,
+    },
 });
 
 const updateByPropertyName = (propertyName, value) => () => ({
@@ -28,7 +26,7 @@ const updateByPropertyName = (propertyName, value) => () => ({
 });
 
 const INITIAL_STATE = {
-    title: '',
+    title: 'TITLE',
     site: '',
     time: '',
     reporter: '',
@@ -132,7 +130,7 @@ class IncidentDetailsView extends Component {
                             onClick={this.onClickCreate}>
                         Create(test)
                     </Button>
-                    {`current user is: ${auth.user}`}
+                    {/*{`current user is: ${auth.user}`}*/}
                 </div>
             </div>
 
