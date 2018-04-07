@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import classNames from 'classnames';
+import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
 import Input, { InputLabel, InputAdornment } from 'material-ui/Input';
@@ -17,16 +18,21 @@ import * as routes from '../../constants/routes';
 const styles = theme => ({
     root: {
         display: 'flex',
+        flexDirection: 'column',
+        alignContent: 'center',
         flexWrap: 'wrap',
     },
     margin: {
-        margin: theme.spacing.unit,
-    },
-    withoutLabel: {
-        marginTop: theme.spacing.unit * 3,
+        width: '30%',
     },
     textField: {
-        flexBasis: 200,
+        marginBottom: 15,
+    },
+    label: {
+    },
+    button: {
+        margin: theme.spacing.unit,
+        width: '30%',
     },
 });
 
@@ -90,6 +96,7 @@ class SignUpForm extends Component {
     }
 
     render() {
+        console.log(this.props);
         const { classes } = this.props;
         const {
             username,
@@ -106,18 +113,18 @@ class SignUpForm extends Component {
             email === '';
 
         return (
-            <form onSubmit={this.onSubmit}>
-            <FormControl fullWidth className={styles.margin}>
-                <InputLabel htmlFor="fullname">Full Name</InputLabel>
+            <form onSubmit={this.onSubmit} className={classes.root}>
+            <FormControl fullWidth className={classNames(classes.margin, classes.textField)}>
+                <InputLabel className={classNames(classes.label)} htmlFor="username">Full Name</InputLabel>
                 <TextField
-                    id="fullname"
-                    value={'Full name'}
+                    id='username'
+                    value={username}
                     onChange={event => this.setState(updateByPropertyName('username', event.target.value))}
                     type="text"
                     placeholder="Full Name"
                 />
             </FormControl>
-            <FormControl fullWidth className={styles.margin}>
+            <FormControl fullWidth className={classNames(classes.margin, classes.textField)}>
                 <InputLabel htmlFor="email">Email</InputLabel>
                     <TextField
                         id='email'
@@ -127,7 +134,7 @@ class SignUpForm extends Component {
                         placeholder="Email Address"
                     />
             </FormControl>
-            <FormControl fullWidth className={styles.margin}>
+            <FormControl fullWidth className={classNames(classes.margin, classes.textField)}>
                 <InputLabel htmlFor="password-one">Password</InputLabel>
                 <TextField
                     id='password-one'
@@ -137,15 +144,19 @@ class SignUpForm extends Component {
                     placeholder="Password"
                 />
             </FormControl>
+            <FormControl fullWidth className={classNames(classes.margin, classes.textField)}>
+                <InputLabel htmlFor="password-two">Confirm password</InputLabel>
                 <TextField
+                    id='password-two'
                     value={passwordTwo}
                     onChange={event => this.setState(updateByPropertyName('passwordTwo', event.target.value))}
                     type="password"
                     placeholder="Confirm Password"
                 />
-                <button disabled={isInvalid} type="submit">
+            </FormControl>
+                <Button disabled={isInvalid} type="submit" variant="raised" color="primary" className={classes.button}>
                     Sign Up
-                </button>
+                </Button>
 
                 {error && <p>{error.message}</p>}
             </form>
@@ -160,7 +171,7 @@ const SignUpLink = () =>
         <Link to={routes.SIGN_UP}>Sign Up</Link>
     </p>
 
-export default withRouter(SignUpPage);
+export default withRouter(withStyles(styles)(SignUpForm));
 
 export {
     SignUpForm,
