@@ -7,20 +7,19 @@ import {withStyles} from 'material-ui/styles';
 import grey from 'material-ui/colors/grey';
 import * as routes from '../../constants/routes';
 import {auth, db} from '../../firebase';
+import WithAuthorization from '../Session/withAuthorization';
 
 
 const styles = theme => ({
-    // container: {
-    //     display: 'flex',
-    //     flexDirection: 'column',
-    //     height: '100%',
-    // },
-    // textField: {
-    //     margin: 10,
-    // },
-    // button: {
-    //     margin: theme.spacing.unit,
-    // },
+    container: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    textField: {
+    },
+    button: {
+        margin: theme.spacing.unit,
+    },
 });
 
 const updateByPropertyName = (propertyName, value) => () => ({
@@ -28,10 +27,10 @@ const updateByPropertyName = (propertyName, value) => () => ({
 });
 
 const INITIAL_STATE = {
-    title: '',
-    site: '',
+    title: 'TITLE',
+    site: 'test site',
     time: '',
-    reporter: '',
+    reporter: 'joey',
     details: '',
     disabledForm: true,
     displayDelete: false,
@@ -48,6 +47,11 @@ class IncidentDetailsView extends Component {
         this.onClickCreate = this.onClickCreate.bind(this);
 
         this.state = {...INITIAL_STATE};
+    }
+
+    componentDidMount() {
+        console.log(this.props.match.params);
+        //db.getIncident(this.props)
     }
 
     onClickSave() {
@@ -132,7 +136,7 @@ class IncidentDetailsView extends Component {
                             onClick={this.onClickCreate}>
                         Create(test)
                     </Button>
-                    {`current user is: ${auth.user}`}
+                    {/*{`current user is: ${auth.user}`}*/}
                 </div>
             </div>
 
@@ -141,5 +145,6 @@ class IncidentDetailsView extends Component {
         );
     }
 }
+const authCondition = (authUser) => !!authUser;
 
-export default withRouter(withStyles(styles)(IncidentDetailsView));
+export default WithAuthorization(authCondition)(withStyles(styles)(IncidentDetailsView));
