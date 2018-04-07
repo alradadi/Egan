@@ -88,7 +88,7 @@ class IncidentDetailsView extends Component {
                     className={classes.textField}
                     label='Site Name'
                     value={site}
-                    onChange={event => this.setState(updateByPropertyName('email', event.target.value))}
+                    onChange={event => this.setState(updateByPropertyName('title', event.target.value))}
                     type="text"
                     disabled={disabledForm}
                 />
@@ -97,7 +97,7 @@ class IncidentDetailsView extends Component {
                     className={classes.textField}
                     label='Time'
                     value={time}
-                    onChange={event => this.setState(updateByPropertyName('email', event.target.value))}
+                    onChange={event => this.setState(updateByPropertyName('site', event.target.value))}
                     type="text"
                     disabled={disabledForm}
                 />
@@ -108,7 +108,7 @@ class IncidentDetailsView extends Component {
                     className={classes.textField}
                     label='Incident Details'
                     value={details}
-                    onChange={event => this.setState(updateByPropertyName('email', event.target.value))}
+                    onChange={event => this.setState(updateByPropertyName('details', event.target.value))}
                     type="text"
                     disabled={disabledForm}
                 />

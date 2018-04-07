@@ -20,7 +20,6 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         flexWrap: 'wrap',
-        margin: 20,
     },
     margin: {
         alignItems: 'center',
