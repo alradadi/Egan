@@ -49,11 +49,6 @@ class IncidentDetailsView extends Component {
         this.state = {...INITIAL_STATE};
     }
 
-    componentDidMount() {
-        console.log(this.props.match.params);
-        //db.getIncident(this.props)
-    }
-
     onClickSave() {
         this.setState({
             disabledForm: true,
@@ -69,6 +64,7 @@ class IncidentDetailsView extends Component {
     }
 
     render() {
+        console.log(this.props);
         const { classes } = this.props;
         const {
             title,

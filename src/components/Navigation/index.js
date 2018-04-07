@@ -41,8 +41,8 @@ const NavigationAuth = (props) =>
             </ListItem>
         </Link>
         <ListItem button onClick={() => {
-            this.props.toggleDrawer;
-            auth.doSignOut;
+            props.toggleDrawer();
+            auth.doSignOut();
         }}>
             <ListItemIcon>
                 <Label/>
