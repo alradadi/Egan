@@ -123,8 +123,8 @@ class App extends React.Component {
                         <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage/>}/>
                         <Route exact path={routes.HOME} component={() => <HomePage/>}/>
                         <Route exact path={routes.ACCOUNT} component={() => <AccountPage/>}/>
-                        <Route exact path={routes.INCIDENT_DETAILS} component={() => <IncidentDetailsView/>}/>
-                        <Route exact path={routes.SITES_LIST} component={() => <SitesList/>}/>
+                        <Route exact path={routes.INCIDENT_DETAILS} component={IncidentDetailsView}/>
+                        <Route exact path={routes.SITES_LIST} component={SitesList}/>
                     </main>
                 </div>
             </Router>

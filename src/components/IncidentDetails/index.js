@@ -50,7 +50,7 @@ class IncidentDetailsView extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.match);
+        console.log(this.props.match.params);
         //db.getIncident(this.props)
     }
 
