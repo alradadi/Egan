@@ -1,21 +1,21 @@
 import * as firebase from 'firebase';
 
 const prodConfig = {
-  apiKey: YOUR_API_KEY,
-  authDomain: YOUR_AUTH_DOMAIN,
-  databaseURL: YOUR_DATABASE_URL,
-  projectId: YOUR_PROJECT_ID,
-  storageBucket: '',
-  messagingSenderId: YOUR_MESSAGING_SENDER_ID,
+    apiKey: 'AIzaSyB-1EH1-D_Xg9PTH9fQDh6pXtKJcHz6c6Y',
+    authDomain: 'egan-14006.firebaseapp.com',
+    databaseURL: 'https://egan-14006.firebaseio.com',
+    projectId: 'egan-14006',
+    storageBucket: 'egan-14006.appspot.com',
+    messagingSenderId: '643283587851'
 };
 
 const devConfig = {
-  apiKey: YOUR_API_KEY,
-  authDomain: YOUR_AUTH_DOMAIN,
-  databaseURL: YOUR_DATABASE_URL,
-  projectId: YOUR_PROJECT_ID,
-  storageBucket: '',
-  messagingSenderId: YOUR_MESSAGING_SENDER_ID,
+    apiKey: 'AIzaSyB-1EH1-D_Xg9PTH9fQDh6pXtKJcHz6c6Y',
+    authDomain: 'egan-14006.firebaseapp.com',
+    databaseURL: 'https://egan-14006.firebaseio.com',
+    projectId: 'egan-14006',
+    storageBucket: 'egan-14006.appspot.com',
+    messagingSenderId: '643283587851'
 };
 
 const config = process.env.NODE_ENV === 'production'
