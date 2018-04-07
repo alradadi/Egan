@@ -11,6 +11,7 @@ export const onceGetUsers = () =>
   db.ref('users').once('value');
 
 export const doCreateIncident = (title, time, reporter, site, details) => {
+    console.log('create stuff');
     var messageListRef = db.ref('incidents');
     var newMessageRef = messageListRef.push();
     newMessageRef.set({

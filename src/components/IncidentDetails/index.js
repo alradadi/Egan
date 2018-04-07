@@ -6,28 +6,21 @@ import Button from 'material-ui/Button';
 import {withStyles} from 'material-ui/styles';
 import grey from 'material-ui/colors/grey';
 import * as routes from '../../constants/routes';
-import {db} from '../../firebase';
+import {auth, db} from '../../firebase';
 
 
 const styles = theme => ({
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-    },
-    row: {
-        marginBottom: 5,
-        '&:first-of-type': {
-            marginTop: 15,
-            marginBottom: 8,
-        },
-    },
-    rowText: {
-        color: grey[500],
-    },
-    button: {
-        margin: theme.spacing.unit,
-    },
+    // container: {
+    //     display: 'flex',
+    //     flexDirection: 'column',
+    //     height: '100%',
+    // },
+    // textField: {
+    //     margin: 10,
+    // },
+    // button: {
+    //     margin: theme.spacing.unit,
+    // },
 });
 
 const updateByPropertyName = (propertyName, value) => () => ({
@@ -35,11 +28,11 @@ const updateByPropertyName = (propertyName, value) => () => ({
 });
 
 const INITIAL_STATE = {
-    title: 'Incident Title',
-    site: 'Helping Hands Church',
-    time: 'March 11, 2018',
-    reporter: 'personnn',
-    details: 'In a health care facility, such as a hospital, nursing home, or assisted living, an incident report or accident report is a form that is filled out in order to record details of an unusual event that occurs at the facility, such as an injury to a patient.',
+    title: '',
+    site: '',
+    time: '',
+    reporter: '',
+    details: '',
     disabledForm: true,
     displayDelete: false,
     displaySave: false,
@@ -50,23 +43,25 @@ const INITIAL_STATE = {
 class IncidentDetailsView extends Component {
     constructor(props) {
         super(props);
-        this.onClickSave = this.onClickEdit.bind(this);
+        this.onClickSave = this.onClickSave.bind(this);
         this.onClickEdit = this.onClickEdit.bind(this);
+        this.onClickCreate = this.onClickCreate.bind(this);
 
         this.state = {...INITIAL_STATE};
     }
 
     onClickSave() {
-        db.doCreateIncident(this.state.title, this.state.time, this.state.reporter, this.state.site, this.state.details)
         this.setState({
             disabledForm: true,
         });
-
     }
     onClickEdit() {
         this.setState({
-            disabledForm: false,
+            disabledForm: !this.state.disabledForm,
         });
+    }
+    onClickCreate() {
+        db.doCreateIncident(this.state.title, this.state.time, 'joey', 'testSite', this.state.details);
     }
 
     render() {
@@ -75,6 +70,7 @@ class IncidentDetailsView extends Component {
             title,
             site,
             time,
+            reporter,
             details,
             displayEdit,
             disabledForm,
@@ -88,18 +84,30 @@ class IncidentDetailsView extends Component {
                     className={classes.textField}
                     label='Site Name'
                     value={site}
-                    onChange={event => this.setState(updateByPropertyName('title', event.target.value))}
+                    onChange={event => this.setState(updateByPropertyName('site', event.target.value))}
                     type="text"
-                    disabled={disabledForm}
+                    disabled
+                />
+                <TextField
+                    className={classes.textField}
+                    label='Reporter'
+                    value={reporter}
+                    onChange={event => this.setState(updateByPropertyName('details', event.target.value))}
+                    type="text"
+                    disabled
                 />
 
                 <TextField
                     className={classes.textField}
-                    label='Time'
+                    label='Date & Time'
                     value={time}
-                    onChange={event => this.setState(updateByPropertyName('site', event.target.value))}
-                    type="text"
+                    onChange={event => this.setState(updateByPropertyName('time', event.target.value))}
+                    type="datetime-local"
+                    defaultValue="2017-05-24T10:30"
                     disabled={disabledForm}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
                 />
 
                 <TextField
@@ -119,7 +127,12 @@ class IncidentDetailsView extends Component {
                             onClick={this.onClickSave}>
                         Save
                     </Button>
-                    <Button variant="raised" color="secondary" className={classes.button}>Delete</Button>
+                    {/*<Button variant="raised" color="secondary" className={classes.button}>Delete</Button>*/}
+                    <Button variant="raised" color="secondary" className={classes.button}
+                            onClick={this.onClickCreate}>
+                        Create(test)
+                    </Button>
+                    {`current user is: ${auth.user}`}
                 </div>
             </div>
 
