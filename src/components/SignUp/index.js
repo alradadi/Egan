@@ -20,12 +20,13 @@ const styles = theme => ({
         display: 'flex',
         flexDirection: 'column',
         flexWrap: 'wrap',
+        margin: 20,
     },
     margin: {
         alignItems: 'center',
     },
     textField: {
-        marginBottom: 15,
+        margin: theme.spacing.unit,
     },
     button: {
         margin: theme.spacing.unit,
@@ -111,6 +112,7 @@ class SignUpForm extends Component {
         return (
             <form onSubmit={this.onSubmit} className={classes.root}>
                 <TextField
+                    className={classes.textField}
                     label='Full Name'
                     id='username'
                     value={username}
@@ -118,6 +120,7 @@ class SignUpForm extends Component {
                     type="text"
                 />
                     <TextField
+                        className={classes.textField}
                         id='email'
                         value={email}
                         onChange={event => this.setState(updateByPropertyName('email', event.target.value))}
@@ -125,6 +128,7 @@ class SignUpForm extends Component {
                         label="Email Address"
                     />
                 <TextField
+                    className={classes.textField}
                     id='password-one'
                     value={passwordOne}
                     onChange={event => this.setState(updateByPropertyName('passwordOne', event.target.value))}
@@ -132,6 +136,7 @@ class SignUpForm extends Component {
                     label="Password"
                 />
                 <TextField
+                    className={classes.textField}
                     id='password-two'
                     value={passwordTwo}
                     onChange={event => this.setState(updateByPropertyName('passwordTwo', event.target.value))}
