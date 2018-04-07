@@ -12,7 +12,6 @@ import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import Divider from 'material-ui/Divider';
 import MenuIcon from 'material-ui-icons/Menu';
-import LandingPage from '../Landing';
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
@@ -117,9 +116,8 @@ class App extends React.Component {
                         {drawer}
                     </Drawer>
                     <main className={classes.content}>
-                        <Route exact path={routes.LANDING} component={() => <LandingPage/>}/>
+                        <Route exact path={routes.LANDING} component={() => <SignInPage/>}/>
                         <Route exact path={routes.SIGN_UP} component={() => <SignUpPage/>}/>
-                        <Route exact path={routes.SIGN_IN} component={() => <SignInPage/>}/>
                         <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage/>}/>
                         <Route exact path={routes.HOME} component={() => <HomePage/>}/>
                         <Route exact path={routes.ACCOUNT} component={() => <AccountPage/>}/>

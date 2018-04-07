@@ -5,6 +5,8 @@ import {
     withRouter,
 } from 'react-router-dom';
 
+import withAuthorization from '../Session/withAuthorization';
+
 const styles = () => {}
 
 class Temp extends Component{
@@ -19,5 +21,5 @@ class Temp extends Component{
     }
 }
 
-export default withStyles(styles)(Temp);
+export default withAuthorization(withStyles(styles)(Temp));
 

@@ -25,6 +25,6 @@ const withAuthorization = (condition) => (Component) => {
   }
 
   return withRouter(WithAuthorization);
-}
+};
 
 export default withAuthorization;
