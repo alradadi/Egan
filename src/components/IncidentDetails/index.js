@@ -62,6 +62,7 @@ class IncidentDetailsView extends Component {
         let incident = db.getIncident(id).then(snapshot => {
             if (snapshot.val() != null)
                 this.setState(() => ({incident: snapshot.val()}));
+            console.log(snapshot.val());
         });
     }
 
