@@ -30,13 +30,17 @@ const styles = theme => ({
     },
 });
 
-const SignInPage = ({history}) =>
-    <div>
-        <h1>SignIn</h1>
-        <SignInForm history={history}/>
-        <PasswordForgetLink/>
-        <SignUpLink/>
-    </div>
+let SignInPage = ({history}) => {
+    const Form = withStyles(styles)(SignInForm);
+    return (<div>
+            <h1>SignIn</h1>
+            <Form history={history}/>
+            <PasswordForgetLink/>
+            <SignUpLink/>
+        </div>
+    )
+}
+
 
 const updateByPropertyName = (propertyName, value) => () => ({
     [propertyName]: value,
@@ -78,7 +82,7 @@ class SignInForm extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
         const {
             email,
             password,
@@ -115,8 +119,8 @@ class SignInForm extends Component {
     }
 }
 
-export default withRouter(withStyles(styles)(SignInForm));
+export default withRouter(SignInPage);
 
 export {
-    SignInPage,
+    SignInForm
 };
