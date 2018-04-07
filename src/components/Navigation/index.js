@@ -1,31 +1,60 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
+import {Link} from 'react-router-dom';
+import List, {ListItem, ListItemText, ListItemIcon} from 'material-ui/List';
+import Label from 'material-ui-icons/Label';
 import AuthUserContext from '../Session/AuthUserContext';
-import SignOutButton from '../SignOut';
 import * as routes from '../../constants/routes';
 
-const Navigation = () =>
-  <AuthUserContext.Consumer>
-    {authUser => authUser
-      ? <NavigationAuth />
-      : <NavigationNonAuth />
-    }
-  </AuthUserContext.Consumer>
+const Navigation = (props) =>
+    <AuthUserContext.Consumer>
+        {authUser => authUser
+            ? <NavigationAuth {...props} />
+            : <NavigationNonAuth {...props}/>
+        }
+    </AuthUserContext.Consumer>
 
-const NavigationAuth = () =>
-  <ul>
-    {/*<li><Link to={routes.LANDING}>Landing</Link></li>*/}
-    <li><Link to={routes.HOME}>Home</Link></li>
-    <li><Link to={routes.ACCOUNT}>Account</Link></li>
-    <li><SignOutButton /></li>
-  </ul>
+const NavigationAuth = (props) =>
+    <List>
+        <Link to={routes.SITES_LIST} onClick={props.toggleDrawer}>
+            <ListItem button>
+                <ListItemIcon>
+                    <Label/>
+                </ListItemIcon>
+                <ListItemText primary="Sites"/>
+            </ListItem>
+        </Link>
+        <Link to={"/Users/"} onClick={props.toggleDrawer}>
+            <ListItem button>
+                <ListItemIcon>
+                    <Label/>
+                </ListItemIcon>
+                <ListItemText primary="Users"/>
+            </ListItem>
+        </Link>
+        <Link to={"/incedints"} onClick={props.toggleDrawer}>
+            <ListItem button>
+                <ListItemIcon>
+                    <Label/>
+                </ListItemIcon>
+                <ListItemText primary="Incidents"/>
+            </ListItem>
+        </Link>
+        <ListItem button>
+            <ListItemIcon>
+                <Label/>
+            </ListItemIcon>
+            <ListItemText primary="Sign Out"/>
+        </ListItem>
+    </List>
 
 const NavigationNonAuth = () =>
-  <ul>
-    {/*<li><Link to={routes.LANDING}>Landing</Link></li>*/}
-    <li><Link to={routes.SIGN_IN}>Sign In</Link></li>
-      <li><Link to={routes.SIGN_UP}>Sign Up</Link></li>
-  </ul>
+    <List>
+        <ListItem button>
+            <ListItemIcon>
+                <Label/>
+            </ListItemIcon>
+            <ListItemText primary="Sign In"/>
+        </ListItem>
+    </List>
 
 export default Navigation;

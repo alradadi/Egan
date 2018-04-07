@@ -8,7 +8,6 @@ import CssBaseline from 'material-ui/CssBaseline';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import List from 'material-ui/List';
 import Typography from 'material-ui/Typography';
 import IconButton from 'material-ui/IconButton';
 import Divider from 'material-ui/Divider';
@@ -20,8 +19,9 @@ import PasswordForgetPage from '../PasswordForget';
 import HomePage from '../Home';
 import AccountPage from '../Account';
 import IncidentDetailsView from '../IncidentDetails';
+import SitesList from '../Site';
 import withAuthentication from '../Session/withAuthentication';
-import Nav from '../Nav';
+import Navigation from '../Navigation';
 import * as routes from '../../constants/routes';
 
 const drawerWidth = 240;
@@ -32,6 +32,10 @@ const styles = theme => ({
             height: '100%',
             backgroundColor: '#dadada',
         },
+        a: {
+            color: 'inherit',
+            textDecoration: 'inherit',
+        }
     },
     root: {
         flexGrow: 1,
@@ -57,7 +61,7 @@ const styles = theme => ({
     content: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        padding: '56px 15px 15px 15px',
+        padding: '71px 15px 15px 15px',
     },
 });
 
@@ -72,11 +76,10 @@ class App extends React.Component {
 
     render() {
         const {classes, theme} = this.props;
-
         const drawer = (
             <div>
                 <Divider/>
-                <List>{Nav}</List>
+                <Navigation toggleDrawer={this.handleDrawerToggle}/>
             </div>
         );
 
@@ -95,7 +98,7 @@ class App extends React.Component {
                                 <MenuIcon/>
                             </IconButton>
                             <Typography variant="title" color="inherit" noWrap>
-                                Megan
+                                Egan
                             </Typography>
                         </Toolbar>
                     </AppBar>
@@ -120,8 +123,8 @@ class App extends React.Component {
                         <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage/>}/>
                         <Route exact path={routes.HOME} component={() => <HomePage/>}/>
                         <Route exact path={routes.ACCOUNT} component={() => <AccountPage/>}/>
-                        <Route exact path='/incident_details/:issueId(\d+)' component={() => <IncidentDetailsView/>}/>
-
+                        <Route exact path={routes.INCIDENT_DETAILS} component={() => <IncidentDetailsView/>}/>
+                        <Route exact path={routes.SITES_LIST} component={() => <SitesList/>}/>
                     </main>
                 </div>
             </Router>
