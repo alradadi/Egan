@@ -2,6 +2,7 @@ import React from 'react';
 import {
     BrowserRouter as Router,
     Route,
+    Redirect,
 } from 'react-router-dom';
 import {withStyles} from 'material-ui/styles';
 import CssBaseline from 'material-ui/CssBaseline';
@@ -13,9 +14,7 @@ import IconButton from 'material-ui/IconButton';
 import Divider from 'material-ui/Divider';
 import MenuIcon from 'material-ui-icons/Menu';
 import SignUpPage from '../SignUp';
-import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
-import HomePage from '../Home';
 import AccountPage from '../Account';
 import IncidentDetailsView from '../IncidentDetails';
 import SitesList from '../Site';
@@ -116,14 +115,13 @@ class App extends React.Component {
                         {drawer}
                     </Drawer>
                     <main className={classes.content}>
-                        <Route exact path={routes.LANDING} component={() => <SignInPage/>}/>
                         <Route exact path={routes.SIGN_UP} component={() => <SignUpPage/>}/>
                         <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage/>}/>
-                        <Route exact path={routes.HOME} component={() => <HomePage/>}/>
                         <Route exact path={routes.ACCOUNT} component={() => <AccountPage/>}/>
                         <Route exact path={routes.INCIDENT_DETAILS} component={IncidentDetailsView}/>
-                        <Route exact path={routes.SITES_LIST} component={SitesList}/>
-                    </main>
+                        <Route exact path={routes.SITES_LIST} component={() => <SitesList/>}/>
+                        {/*<Redirect from="/" to="/sites"/>*/}
+                       </main>
                 </div>
             </Router>
         );

@@ -1,6 +1,5 @@
 export const SIGN_IN = '/';
 export const SIGN_UP = '/signup';
-export const SIGN_IN = '/signin';
 export const PASSWORD_FORGET = '/pw-forget';
 export const SITES_LIST = '/sites';
 export const ACCOUNT = '/account';
