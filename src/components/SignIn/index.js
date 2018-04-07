@@ -1,95 +1,122 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
+import classNames from 'classnames';
+import Button from 'material-ui/Button';
+import {withStyles} from 'material-ui/styles';
+import TextField from 'material-ui/TextField';
 
-import { SignUpLink } from '../SignUp';
-import { PasswordForgetLink } from '../PasswordForget';
-import { auth } from '../../firebase';
+import {SignUpLink} from '../SignUp';
+import {PasswordForgetLink} from '../PasswordForget';
+import {auth} from '../../firebase';
 import * as routes from '../../constants/routes';
 
-const SignInPage = ({ history }) =>
-  <div>
-    <h1>SignIn</h1>
-    <SignInForm history={history} />
-    <PasswordForgetLink />
-    <SignUpLink />
-  </div>
+
+const styles = theme => ({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+        margin: 20,
+    },
+    margin: {
+        alignItems: 'center',
+    },
+    textField: {
+        margin: theme.spacing.unit,
+    },
+    button: {
+        margin: theme.spacing.unit,
+    },
+});
+
+const SignInPage = ({history}) =>
+    <div>
+        <h1>SignIn</h1>
+        <SignInForm history={history}/>
+        <PasswordForgetLink/>
+        <SignUpLink/>
+    </div>
 
 const updateByPropertyName = (propertyName, value) => () => ({
-  [propertyName]: value,
+    [propertyName]: value,
 });
 
 const INITIAL_STATE = {
-  email: '',
-  password: '',
-  error: null,
+    email: '',
+    password: '',
+    error: null,
 };
 
 class SignInForm extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = { ...INITIAL_STATE };
-  }
+        this.state = {...INITIAL_STATE};
+    }
 
-  onSubmit = (event) => {
-    const {
-      email,
-      password,
-    } = this.state;
+    onSubmit = (event) => {
+        const {
+            email,
+            password,
+        } = this.state;
 
-    const {
-      history,
-    } = this.props;
+        const {
+            history,
+        } = this.props;
 
-    auth.doSignInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setState(() => ({ ...INITIAL_STATE }));
-        history.push(routes.HOME);
-      })
-      .catch(error => {
-        this.setState(updateByPropertyName('error', error));
-      });
+        auth.doSignInWithEmailAndPassword(email, password)
+            .then(() => {
+                this.setState(() => ({...INITIAL_STATE}));
+                history.push(routes.HOME);
+            })
+            .catch(error => {
+                this.setState(updateByPropertyName('error', error));
+            });
 
-    event.preventDefault();
-  }
+        event.preventDefault();
+    }
 
-  render() {
-    const {
-      email,
-      password,
-      error,
-    } = this.state;
+    render() {
+        const { classes } = this.props;
+        const {
+            email,
+            password,
+            error,
+        } = this.state;
 
-    const isInvalid =
-      password === '' ||
-      email === '';
+        const isInvalid =
+            password === '' ||
+            email === '';
 
-    return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          value={email}
-          onChange={event => this.setState(updateByPropertyName('email', event.target.value))}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          value={password}
-          onChange={event => this.setState(updateByPropertyName('password', event.target.value))}
-          type="password"
-          placeholder="Password"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign In
-        </button>
+        return (
+            <form onSubmit={this.onSubmit} className={classes.root}>
+                <TextField
+                    className={classes.textField}
+                    label='Email Address'
+                    value={email}
+                    onChange={event => this.setState(updateByPropertyName('email', event.target.value))}
+                    type="text"
+                />
+                <TextField
+                    className={classes.textField}
+                    value={password}
+                    onChange={event => this.setState(updateByPropertyName('password', event.target.value))}
+                    type="password"
+                    label="Password"
+                />
+                <Button disabled={isInvalid} type="submit" variant="raised" color="primary" className={classes.button}>
+                    Sign In
+                </Button>
 
-        { error && <p>{error.message}</p> }
-      </form>
-    );
-  }
+                {error && <p>{error.message}</p>}
+            </form>
+        );
+    }
 }
 
-export default withRouter(SignInPage);
+export default withRouter(withStyles(styles)(SignInForm));
 
 export {
-  SignInForm,
+    SignInPage,
 };

@@ -163,6 +163,6 @@ const SignUpLink = () =>
 export default withRouter(withStyles(styles)(SignUpForm));
 
 export {
-    SignUpForm,
+    SignUpPage,
     SignUpLink,
 };
