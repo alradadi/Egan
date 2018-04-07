@@ -7,6 +7,7 @@ import {withStyles} from 'material-ui/styles';
 import grey from 'material-ui/colors/grey';
 import * as routes from '../../constants/routes';
 import {auth, db} from '../../firebase';
+import WithAuthorization from '../Session/withAuthorization';
 
 
 const styles = theme => ({
@@ -27,9 +28,9 @@ const updateByPropertyName = (propertyName, value) => () => ({
 
 const INITIAL_STATE = {
     title: 'TITLE',
-    site: '',
+    site: 'test site',
     time: '',
-    reporter: '',
+    reporter: 'joey',
     details: '',
     disabledForm: true,
     displayDelete: false,
@@ -46,6 +47,11 @@ class IncidentDetailsView extends Component {
         this.onClickCreate = this.onClickCreate.bind(this);
 
         this.state = {...INITIAL_STATE};
+    }
+
+    componentDidMount() {
+        console.log(this.props.match);
+        //db.getIncident(this.props)
     }
 
     onClickSave() {
@@ -139,5 +145,6 @@ class IncidentDetailsView extends Component {
         );
     }
 }
+const authCondition = (authUser) => !!authUser;
 
-export default withRouter(withStyles(styles)(IncidentDetailsView));
+export default WithAuthorization(authCondition)(withStyles(styles)(IncidentDetailsView));
