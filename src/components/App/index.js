@@ -29,6 +29,7 @@ const styles = {
         maxWidth: 600,
         margin: '0 auto',
         overflow: 'auto',
+        padding: 15,
     },
 };
 
