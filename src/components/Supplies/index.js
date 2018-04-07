@@ -19,16 +19,20 @@ const styles = theme => ({
     root: {
         display: 'flex',
         flexDirection: 'column',
+        alignContent: 'center',
         flexWrap: 'wrap',
     },
     margin: {
-        alignItems: 'center',
+        width: '30%',
     },
     textField: {
         marginBottom: 15,
     },
+    label: {
+    },
     button: {
         margin: theme.spacing.unit,
+        width: '30%',
     },
 });
 
@@ -110,34 +114,46 @@ class SignUpForm extends Component {
 
         return (
             <form onSubmit={this.onSubmit} className={classes.root}>
-                <TextField
-                    label='Full Name'
-                    id='username'
-                    value={username}
-                    onChange={event => this.setState(updateByPropertyName('username', event.target.value))}
-                    type="text"
-                />
+                <FormControl fullWidth className={classNames(classes.margin, classes.textField)}>
+                    <InputLabel className={classNames(classes.label)} htmlFor="username">Full Name</InputLabel>
+                    <TextField
+                        id='username'
+                        value={username}
+                        onChange={event => this.setState(updateByPropertyName('username', event.target.value))}
+                        type="text"
+                        placeholder="Full Name"
+                    />
+                </FormControl>
+                <FormControl fullWidth className={classNames(classes.margin, classes.textField)}>
+                    <InputLabel htmlFor="email">Email</InputLabel>
                     <TextField
                         id='email'
                         value={email}
                         onChange={event => this.setState(updateByPropertyName('email', event.target.value))}
                         type="text"
-                        label="Email Address"
+                        placeholder="Email Address"
                     />
-                <TextField
-                    id='password-one'
-                    value={passwordOne}
-                    onChange={event => this.setState(updateByPropertyName('passwordOne', event.target.value))}
-                    type="password"
-                    label="Password"
-                />
-                <TextField
-                    id='password-two'
-                    value={passwordTwo}
-                    onChange={event => this.setState(updateByPropertyName('passwordTwo', event.target.value))}
-                    type="password"
-                    label="Confirm Password"
-                />
+                </FormControl>
+                <FormControl fullWidth className={classNames(classes.margin, classes.textField)}>
+                    <InputLabel htmlFor="password-one">Password</InputLabel>
+                    <TextField
+                        id='password-one'
+                        value={passwordOne}
+                        onChange={event => this.setState(updateByPropertyName('passwordOne', event.target.value))}
+                        type="password"
+                        placeholder="Password"
+                    />
+                </FormControl>
+                <FormControl fullWidth className={classNames(classes.margin, classes.textField)}>
+                    <InputLabel htmlFor="password-two">Confirm password</InputLabel>
+                    <TextField
+                        id='password-two'
+                        value={passwordTwo}
+                        onChange={event => this.setState(updateByPropertyName('passwordTwo', event.target.value))}
+                        type="password"
+                        placeholder="Confirm Password"
+                    />
+                </FormControl>
                 <Button disabled={isInvalid} type="submit" variant="raised" color="primary" className={classes.button}>
                     Sign Up
                 </Button>
