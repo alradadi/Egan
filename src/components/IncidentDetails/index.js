@@ -27,11 +27,13 @@ const updateByPropertyName = (propertyName, value) => () => ({
 });
 
 const INITIAL_STATE = {
-    title: 'TITLE',
-    site: 'test site',
-    time: '',
-    reporter: 'joey',
-    details: '',
+    incident: {
+        title: 'TITLE',
+        site: 'test site',
+        time: '',
+        reporter: 'joey',
+        details: '',
+    },
     disabledForm: true,
     displayDelete: false,
     displaySave: false,
@@ -50,8 +52,17 @@ class IncidentDetailsView extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.match.params);
-        //db.getIncident(this.props)
+        this.fetchIncident();
+
+    }
+
+    fetchIncident() {
+        let id = window.location.href.split('/')[4];
+        console.log(id);
+        let incident = db.getIncident(id).then(snapshot => {
+            if (snapshot.val() != null)
+                this.setState(() => ({incident: snapshot.val()}));
+        });
     }
 
     onClickSave() {
@@ -65,17 +76,13 @@ class IncidentDetailsView extends Component {
         });
     }
     onClickCreate() {
-        db.doCreateIncident(this.state.title, this.state.time, 'joey', 'testSite', this.state.details);
+        db.doCreateIncident(this.state.incident.title, this.state.incident.time, 'joey', 'testSite', this.state.incident.details);
     }
 
     render() {
         const { classes } = this.props;
         const {
-            title,
-            site,
-            time,
-            reporter,
-            details,
+            incident,
             displayEdit,
             disabledForm,
             error,
@@ -83,11 +90,11 @@ class IncidentDetailsView extends Component {
 
         return (
             <div className={classes.container}>
-                <h1>{title}</h1>
+                <h1>{incident.title}</h1>
                 <TextField
                     className={classes.textField}
                     label='Site Name'
-                    value={site}
+                    value={incident.site}
                     onChange={event => this.setState(updateByPropertyName('site', event.target.value))}
                     type="text"
                     disabled
@@ -95,7 +102,7 @@ class IncidentDetailsView extends Component {
                 <TextField
                     className={classes.textField}
                     label='Reporter'
-                    value={reporter}
+                    value={incident.reporter}
                     onChange={event => this.setState(updateByPropertyName('details', event.target.value))}
                     type="text"
                     disabled
@@ -104,7 +111,7 @@ class IncidentDetailsView extends Component {
                 <TextField
                     className={classes.textField}
                     label='Date & Time'
-                    value={time}
+                    value={incident.time}
                     onChange={event => this.setState(updateByPropertyName('time', event.target.value))}
                     type="datetime-local"
                     defaultValue="2017-05-24T10:30"
@@ -119,7 +126,7 @@ class IncidentDetailsView extends Component {
                     rowsMax="4"
                     className={classes.textField}
                     label='Incident Details'
-                    value={details}
+                    value={incident.details}
                     onChange={event => this.setState(updateByPropertyName('details', event.target.value))}
                     type="text"
                     disabled={disabledForm}
