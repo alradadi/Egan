@@ -3,6 +3,7 @@ import {
     BrowserRouter as Router,
     Route,
     Redirect,
+    Switch,
 } from 'react-router-dom';
 import {withStyles} from 'material-ui/styles';
 import CssBaseline from 'material-ui/CssBaseline';
@@ -21,6 +22,7 @@ import SitesList from '../Site';
 import withAuthentication from '../Session/withAuthentication';
 import Navigation from '../Navigation';
 import * as routes from '../../constants/routes';
+import SignInPage from "../SignIn";
 
 const drawerWidth = 240;
 
@@ -115,13 +117,16 @@ class App extends React.Component {
                         {drawer}
                     </Drawer>
                     <main className={classes.content}>
-                        <Route exact path={routes.SIGN_UP} component={() => <SignUpPage/>}/>
-                        <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage/>}/>
-                        <Route exact path={routes.ACCOUNT} component={() => <AccountPage/>}/>
-                        <Route exact path={routes.INCIDENT_DETAILS} component={IncidentDetailsView}/>
-                        <Route exact path={routes.SITES_LIST} component={() => <SitesList/>}/>
-                        {/*<Redirect from="/" to="/sites"/>*/}
-                       </main>
+                        <Switch>
+                            <Route exact path={routes.SIGN_IN} component={() => <SignInPage/>}/>
+                            <Route exact path={routes.SIGN_UP} component={() => <SignUpPage/>}/>
+                            <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage/>}/>
+                            <Route exact path={routes.ACCOUNT} component={() => <AccountPage/>}/>
+                            <Route exact path={routes.INCIDENT_DETAILS} component={IncidentDetailsView}/>
+                            <Route exact path={routes.SITES_LIST} component={() => <SitesList/>}/>
+                            <Redirect from="/" to="/sites"/>
+                        </Switch>
+                    </main>
                 </div>
             </Router>
         );

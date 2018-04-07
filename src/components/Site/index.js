@@ -21,5 +21,7 @@ class Temp extends Component{
     }
 }
 
-export default withAuthorization(withStyles(styles)(Temp));
+const authCondition = (authUser) => !!authUser;
+
+export default withAuthorization(authCondition)(withStyles(styles)(Temp));
 
