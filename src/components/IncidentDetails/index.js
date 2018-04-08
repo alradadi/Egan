@@ -2,165 +2,222 @@ import React, {Component} from 'react';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import {withStyles} from 'material-ui/styles';
+import IconButton from 'material-ui/IconButton';
+import ModeEdit from 'material-ui-icons/ModeEdit';
 import Loader from '../Loader';
-import {auth, db} from '../../firebase';
+import {db} from '../../firebase';
 import WithAuthorization from '../Session/withAuthorization';
+import grey from "material-ui/colors/grey";
 
 
 const styles = theme => ({
     container: {
         display: 'flex',
         flexDirection: 'column',
-        marginLeft: 25,
-        marginRight: 25,
+        height: '100%',
+        position: 'relative',
+        padding: 15,
     },
-    textField: {
+    row: {
+        marginBottom: 12,
     },
-    button: {
-        margin: theme.spacing.unit,
+    rowText: {
+        color: grey[500],
     },
+    editButton: {
+        position: 'absolute',
+        right: 0,
+        top: 0,
+    },
+    buttonsContainer: {
+        marginTop: 'auto',
+        marginLeft: 'auto',
+        display: 'flex',
+        flexDirection: 'row',
+    },
+    saveButton: {
+        marginLeft: 10,
+    },
+    cancelButton: {},
+    title: {
+        fontSize: '1.5rem',
+        marginBottom: 15,
+        marginRight: 26,
+    }
 });
 
-const updateByPropertyName = (propertyName, value) => () => ({
-    [propertyName]: value,
-});
-
-const INITIAL_STATE = {
-    title: 'TITLE',
-    site: 'test site',
-    time: '',
-    reporter: 'joey',
-    details: '',
-    disabledForm: true,
-    displayDelete: false,
-    displaySave: false,
-    displayEdit: false,
-    error: null,
-    fetching: true,
-};
 
 class IncidentDetailsView extends Component {
     constructor(props) {
         super(props);
-        this.onClickSave = this.onClickSave.bind(this);
-        this.onClickEdit = this.onClickEdit.bind(this);
-        this.onClickCreate = this.onClickCreate.bind(this);
 
-        this.state = {...INITIAL_STATE};
+        this.state = {
+            incident: {},
+            editing: false,
+            fetching: true,
+        };
+
+        this.toggleEditing = this.toggleEditing.bind(this);
+        this.cancelEditing = this.cancelEditing.bind(this);
+        this.saveForm = this.saveForm.bind(this);
     }
 
     componentDidMount() {
         this.fetchIncident();
     }
 
-    fetchIncident() {
-        let id = this.props.match.params.incidentId;
-        let incident = db.getIncident(id).then(snapshot => {
-            let v = snapshot.val();
-            if (v != null)
-                this.setState(() => (
-                    {   title: v.title,
-                        site: v.site,
-                        reporter: v.reporter,
-                        time: v.time,
-                        details: v.details,
-                        fetching: false,
-                }));
+    toggleEditing() {
+        this.setState({
+            editing: !this.state.editing,
         });
     }
 
-    onClickSave() {
-        this.setState({
-            disabledForm: true,
-        });
-        const { title, reporter, site, time, details } = this.state;
-        let updates = {title: title, site: site, reporter: reporter, time: time, details: details};
-        let id = window.location.href.split('/')[4];
-        db.updateIncident(id, updates);
-        this.fetchIncident();
+    editState(field, newValue) {
+        const incident = {...this.state.incident, [field]: newValue};
+        this.setState({incident});
     }
-    onClickEdit() {
+
+    onInputChange(field) {
+        return event => {
+            return this.editState(field, event.target.value);
+        };
+    }
+
+    cancelEditing() {
+        this.setState({editing: false, incident: this.seedIncident});
+    }
+
+    saveForm() {
+        const id = this.props.match.params.incidentId;
+        db.updateIncident(id, this.state.incident);
         this.setState({
-            disabledForm: !this.state.disabledForm,
+            editing: false,
         });
     }
-    onClickCreate() {
-        db.doCreateIncident(this.state.incident.title, this.state.incident.time, 'joey', 'testSite', this.state.incident.details);
+
+    async fetchIncident() {
+        const id = this.props.match.params.incidentId;
+        const snapshot = await db.getIncident(id);
+        const incident = snapshot.val();
+        this.setState({
+            incident,
+            fetching: false
+        });
+        this.seedIncident = incident;
     }
 
     render() {
-        const { classes } = this.props;
-        const {
-            title,
-            site,
-            reporter,
-            time,
-            details,
-            displayEdit,
-            disabledForm,
-            error,
-        } = this.state;
+        const {props, state} = this;
+        const { classes } = props;
+        const {incident} = state;
         if(this.state.fetching){
             return <Loader/>;
         }
-        return (
-            <div className={classes.container}>
-                <h1>{title}</h1>
-                <TextField
-                    className={classes.textField}
-                    label='Site Name'
-                    value={site}
-                    onChange={event => this.setState(updateByPropertyName('site', event.target.value))}
-                    type="text"
-                    disabled
-                />
-                <TextField
-                    className={classes.textField}
-                    label='Reporter'
-                    value={reporter}
-                    onChange={event => this.setState(updateByPropertyName('details', event.target.value))}
-                    type="text"
-                    disabled
-                />
-
-                <TextField
-                    className={classes.textField}
-                    label='Date & Time'
-                    value={time}
-                    onChange={event => this.setState(updateByPropertyName('time', event.target.value))}
-                    type="datetime-local"
-                    defaultValue="2017-05-24T10:30"
-                    disabled={disabledForm}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-
-                <TextField
-                    multiline
-                    rowsMax="4"
-                    className={classes.textField}
-                    label='Incident Details'
-                    value={details}
-                    onChange={event => this.setState(updateByPropertyName('details', event.target.value))}
-                    type="text"
-                    disabled={disabledForm}
-                />
-                <div style={{display: 'flex', justifyContent: 'center'}}>
-                    <Button variant="raised" style={{ backgroundColor: 'orange'}} className={classes.button}
-                            onClick={this.onClickEdit}>Edit</Button>
-                    <Button variant="raised" color="primary" className={classes.button} disabled={disabledForm}
-                            onClick={this.onClickSave}>
-                        Save
-                    </Button>
-                    {/*<Button variant="raised" color="secondary" className={classes.button}>Delete</Button>*/}
-                    {/*{`current user is: ${auth.user}`}*/}
+        if (state.editing) {
+            return (
+                <div className={classes.container}>
+                    <div className={classes.title}>{incident.title}</div>
+                    <div className={classes.row}>
+                        <div>
+                            Site Name
+                        </div>
+                        <div className={classes.rowText}>
+                            {incident.site || ''}
+                        </div>
+                    </div>
+                    <div className={classes.row}>
+                        <div>
+                            Reporter
+                        </div>
+                        <div className={classes.rowText}>
+                            {incident.reporter || ''}
+                        </div>
+                    </div>
+                    <div className={classes.row}>
+                        <div>
+                            Date & Time
+                        </div>
+                        <TextField
+                            fullWidth
+                            value={incident.time}
+                            type="datetime-local"
+                            onChange={this.onInputChange('time')}
+                        />
+                    </div>
+                    <div className={classes.row}>
+                        <div>
+                            Incident Details
+                        </div>
+                        <TextField
+                            fullWidth
+                            type="text"
+                            multiline
+                            value={incident.details || ''}
+                            onChange={this.onInputChange('details')}
+                        />
+                    </div>
+                    <div className={classes.buttonsContainer}>
+                        <Button
+                            className={classes.cancelButton}
+                            onClick={this.cancelEditing}
+                            color="secondary"
+                            variant="raised"
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            className={classes.saveButton}
+                            color="primary"
+                            variant="raised"
+                            onClick={this.saveForm}
+                        >
+                            Save
+                        </Button>
+                    </div>
                 </div>
-            </div>
-
-
-            // {error && <p>{error.message}</p>}
-        );
+            );
+        } else {
+            return (
+                <div className={classes.container}>
+                    <IconButton className={classes.editButton} onClick={this.toggleEditing}>
+                        <ModeEdit/>
+                    </IconButton>
+                    <div className={classes.title}>{incident.title}</div>
+                    <div className={classes.row}>
+                        <div>
+                            Site Name
+                        </div>
+                        <div className={classes.rowText}>
+                            {incident.site || ''}
+                        </div>
+                    </div>
+                    <div className={classes.row}>
+                        <div>
+                            Reporter
+                        </div>
+                        <div className={classes.rowText}>
+                            {incident.reporter || ''}
+                        </div>
+                    </div>
+                    <div className={classes.row}>
+                        <div>
+                            Date & Time
+                        </div>
+                        <div className={classes.rowText}>
+                            {(new Date(incident.time)).toLocaleString() || ''}
+                        </div>
+                    </div>
+                    <div className={classes.row}>
+                        <div>
+                            Incident Details
+                        </div>
+                        <div className={classes.rowText}>
+                            {incident.details}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
     }
 }
 const authCondition = (authUser) => !!authUser;
