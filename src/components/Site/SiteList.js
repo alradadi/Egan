@@ -4,6 +4,7 @@ import List, {ListItem, ListItemText} from 'material-ui/List';
 
 import withAuthorization from '../Session/withAuthorization';
 import {db} from "../../firebase/firebase";
+import {convertObjToList} from '../../helpers';
 
 const styles = () => ({
     item: {
@@ -12,7 +13,7 @@ const styles = () => ({
     title: {
         fontSize: '1.25rem',
     },
-    subheader:{
+    subheader: {
         display: 'flex',
         flexDirection: 'row',
         color: '#888888',
@@ -38,31 +39,31 @@ class SiteList extends Component {
 
     fetchData() {
         const ref = db.ref('sites');
-        ref.on('child_added', (data) => {
+        ref.on('value', (data) => {
             this.setState({
-                sites: [...this.state.sites, {key: data.key, ...data.val()}]
+                sites: convertObjToList(data.val())
             });
         });
     }
 
     renderList() {
-        const {props, state } = this;
+        const {props, state} = this;
         return state.sites.map((site) => {
             return (
                 <ListItem className={props.classes.item} button key={site.key}>
                     <ListItemText>
                         <React.Fragment>
-                        <div className={props.classes.title}>{site.name}</div>
-                        <div className={props.classes.subheader}>
-                            <div>
-                                <div>Count: {site.headCount}/{site.max}</div>
-                                <div>Walk ins: {site.walkIns}</div>
+                            <div className={props.classes.title}>{site.name}</div>
+                            <div className={props.classes.subheader}>
+                                <div>
+                                    <div>Count: {site.headCount}/{site.max}</div>
+                                    <div>Walk ins: {site.walkIns}</div>
+                                </div>
+                                <div>
+                                    <div>Status: {site.active}</div>
+                                    <div>Lead: {site.lead}</div>
+                                </div>
                             </div>
-                            <div>
-                                <div>Status: {site.active}</div>
-                                <div>Lead: {site.lead}</div>
-                            </div>
-                        </div>
                         </React.Fragment>
                     </ListItemText>
                 </ListItem>

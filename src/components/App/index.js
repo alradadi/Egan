@@ -83,7 +83,6 @@ class App extends React.Component {
                 <Navigation toggleDrawer={this.handleDrawerToggle}/>
             </div>
         );
-        debugger;
         return (
             <Router>
                 <div className={classes.root}>
