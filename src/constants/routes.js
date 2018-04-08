@@ -8,3 +8,4 @@ export const INCIDENTS = '/incidents';
 export const INCIDENT_DETAILS = '/incidents/:incidentId([-\\d\\w]+)';
 export const REQUEST_DETAILS = '/requests/:requestId([-\\d\\w]+)';
 export const REQUESTS = '/requests';
+export const USERS = '/users';

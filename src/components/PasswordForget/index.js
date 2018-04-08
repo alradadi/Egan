@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
+import Button from 'material-ui/Button';
+import {withStyles} from 'material-ui/styles';
+import TextField from 'material-ui/TextField';
 import { Link } from 'react-router-dom';
 import { auth } from '../../firebase';
 import * as routes from '../../constants/routes';
@@ -49,15 +53,15 @@ class PasswordForgetForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
+        <TextField
           value={this.state.email}
           onChange={event => this.setState(updateByPropertyName('email', event.target.value))}
           type="text"
           placeholder="Email Address"
         />
-        <button disabled={isInvalid} type="submit">
+        <Button disabled={isInvalid} type="submit" variant="raised" color="primary" style={{ marginLeft: 10, height: '75%'}}>
           Reset My Password
-        </button>
+        </Button>
 
         { error && <p>{error.message}</p> }
       </form>
