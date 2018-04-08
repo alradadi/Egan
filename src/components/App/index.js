@@ -17,6 +17,7 @@ import MenuIcon from 'material-ui-icons/Menu';
 import SignUpPage from '../SignUp';
 import PasswordForgetPage from '../PasswordForget';
 import AccountPage from '../Account';
+import IncidentsView from '../IncidentIndex'
 import IncidentDetailsView from '../IncidentDetails';
 import {SiteList} from '../Site';
 import withAuthentication from '../Session/withAuthentication';
@@ -122,6 +123,7 @@ class App extends React.Component {
                             <Route exact path={routes.SIGN_UP} component={() => <SignUpPage/>}/>
                             <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage/>}/>
                             <Route exact path={routes.ACCOUNT} component={() => <AccountPage/>}/>
+                            <Route exact path={routes.INCIDENTS} component={IncidentsView}/>
                             <Route exact path={routes.INCIDENT_DETAILS} component={IncidentDetailsView}/>
                             <Route exact path={routes.SITES_LIST} component={() => <SiteList/>}/>
                             <Redirect from="/" to="/sites"/>
