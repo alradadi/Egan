@@ -54,9 +54,10 @@ class IncidentDetailsView extends Component {
     }
 
     fetchIncident() {
-        let id = this.props.match.incidentId;
+        let id = this.props.match.params.incidentId;
         let incident = db.getIncident(id).then(snapshot => {
             let v = snapshot.val();
+            console.log(v);
             if (v != null)
                 this.setState(() => (
                     {   title: v.title,
