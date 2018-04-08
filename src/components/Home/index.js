@@ -22,9 +22,8 @@ class HomePage extends Component {
     const { users } = this.state;
 
     return (
-      <div>
-        <h1>Home</h1>
-        <p>The Home Page is accessible by every signed in user.</p>
+      <div style={{margin: 20}}>
+        <h1>Users</h1>
 
         { !!users && <UserList users={users} /> }
       </div>
@@ -38,7 +37,7 @@ const UserList = ({ users }) =>
     <p>(Saved on Sign Up in Firebase Database)</p>
 
     {Object.keys(users).map(key =>
-      <div key={key}>{users[key].username}</div>
+      <div key={key}>{users[key].username} ({users[key].phone_number})</div>
     )}
   </div>
 

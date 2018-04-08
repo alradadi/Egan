@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-
+import classNames from 'classnames';
+import Button from 'material-ui/Button';
+import {withStyles} from 'material-ui/styles';
+import TextField from 'material-ui/TextField';
 import { auth } from '../../firebase';
 
 const updateByPropertyName = (propertyName, value) => () => ({
@@ -46,21 +49,21 @@ class PasswordChangeForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <input
+        <TextField
           value={passwordOne}
           onChange={event => this.setState(updateByPropertyName('passwordOne', event.target.value))}
           type="password"
           placeholder="New Password"
         />
-        <input
+        <TextField
           value={passwordTwo}
           onChange={event => this.setState(updateByPropertyName('passwordTwo', event.target.value))}
           type="password"
           placeholder="Confirm New Password"
         />
-        <button disabled={isInvalid} type="submit">
+        <Button disabled={isInvalid} variant="raised" color="primary" type="submit" style={{ marginLeft: 10, height: '75%'}}>
           Reset My Password
-        </button>
+        </Button>
 
         { error && <p>{error.message}</p> }
       </form>

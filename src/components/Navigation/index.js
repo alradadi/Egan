@@ -24,7 +24,7 @@ const NavigationAuth = (props) =>
                 <ListItemText primary="Sites"/>
             </ListItem>
         </Link>
-        <Link to={"/Users/"} onClick={props.toggleDrawer}>
+        <Link to={"/users/"} onClick={props.toggleDrawer}>
             <ListItem button>
                 <ListItemIcon>
                     <Label/>
@@ -46,6 +46,22 @@ const NavigationAuth = (props) =>
                     <Label/>
                 </ListItemIcon>
                 <ListItemText primary="Requests"/>
+            </ListItem>
+        </Link>
+        <Link to={"/account"} onClick={props.toggleDrawer}>
+        <ListItem button>
+            <ListItemIcon>
+                <Label/>
+            </ListItemIcon>
+            <ListItemText primary="Account"/>
+        </ListItem>
+        </Link>
+        <Link to={"/signup"} onClick={props.toggleDrawer}>
+            <ListItem button>
+                <ListItemIcon>
+                    <Label/>
+                </ListItemIcon>
+                <ListItemText primary="Add New User"/>
             </ListItem>
         </Link>
         <ListItem button onClick={() => {
