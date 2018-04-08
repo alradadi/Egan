@@ -28,21 +28,22 @@ class IncidentsView extends Component {
 
     fetchAllIncidents() {
         let self = this;
-        let commentsRef = db.ref('incidents');
-        commentsRef.on('child_added', function(data) {
-            //console.log(data.key);
-            //console.log(data.val());
+        let incRef = db.ref('incidents');
+        incRef.on('value', function(data) {
             let incident = data.val();
-            self.setState({
-                incidents: [...self.state.incidents, {key: data.key, title: incident.title, time: incident.time,}]
-            });
+            for (let key in incident) {
+                console.log(key);
+                self.setState({
+                    incidents: [...self.state.incidents, {key: key, title: incident[key].title, time: incident[key].time,}]
+                });
+            }
         });
     }
 
     addListItems(key, title, time) {
         return (
             <Link to={`/incidents/${key}`}>
-                <ListItem>
+                <ListItem button>
                     <Avatar>
                         <DescriptionIcon/>
                     </Avatar>
