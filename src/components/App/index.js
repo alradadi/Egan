@@ -19,12 +19,15 @@ import PasswordForgetPage from '../PasswordForget';
 import AccountPage from '../Account';
 import IncidentsView from '../IncidentIndex'
 import IncidentDetailsView from '../IncidentDetails';
+import RequestsView from '../RequestIndex';
+import RequestDetailsView from '../RequestDetails';
 import {SiteList} from '../Site';
 import withAuthentication from '../Session/withAuthentication';
 import Navigation from '../Navigation';
 import * as routes from '../../constants/routes';
 import SignInPage from "../SignIn";
 import SiteDetails from "../Site/SiteDetails";
+
 
 const drawerWidth = 240;
 
@@ -129,6 +132,8 @@ class App extends React.Component {
                             <Route exact path={routes.SITE} component={SiteDetails}/>
                             <Route exact path={routes.INCIDENTS} component={IncidentsView}/>
                             <Route exact path={routes.INCIDENT_DETAILS} component={IncidentDetailsView}/>
+                            <Route exact path={routes.REQUESTS} component={RequestsView}/>
+                            <Route exact path={routes.REQUEST_DETAILS} component={RequestDetailsView} />
                             <Redirect from="/" to="/sites"/>
                         </Switch>
                     </main>

@@ -30,6 +30,9 @@ export const doCreateIncident = (title, time, reporter, site, details) => {
 export const getIncident = (id) =>
     db.ref(`incidents/${id}`).once('value');
 
+export const getRequest= (id) =>
+    db.ref(`requests/${id}`).once('value');
+
 
 
 export const getSite = (id) =>
@@ -45,6 +48,13 @@ export const createSite = (obj) => {
     ref.push(obj);
 };
 
+export const updateIncident = (id, newValue) => {
+    db.ref(`incidents/${id}`).update(newValue);
+};
+
+export const updateRequest = (id, newValue) => {
+    db.ref(`requests/${id}`).update(newValue);
+};
 
 export const updateSite = (id, newValue) => {
     db.ref(`sites/${id}`).update(newValue);
