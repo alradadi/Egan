@@ -15,8 +15,9 @@ class IncidentsView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            incidents: {},
+            incidents: [],
         }
+        this.fetchAllIncidents = this.fetchAllIncidents.bind(this);
     }
 
 
@@ -26,23 +27,27 @@ class IncidentsView extends Component {
 
 
     fetchAllIncidents() {
-        let commentsRef = db.ref('incidents');
-        commentsRef.on('child_added', function(data) {
-            console.log(data.key);
-            console.log(data.val());
+        let self = this;
+        let incRef = db.ref('incidents');
+        incRef.on('value', function(data) {
             let incident = data.val();
-            this.addListItems(data.key, incident.title, incident.time)
+            for (let key in incident) {
+                console.log(key);
+                self.setState({
+                    incidents: [...self.state.incidents, {key: key, title: incident[key].title, time: incident[key].time,}]
+                });
+            }
         });
     }
 
     addListItems(key, title, time) {
         return (
             <Link to={`/incidents/${key}`}>
-                <ListItem>
+                <ListItem button>
                     <Avatar>
                         <DescriptionIcon/>
                     </Avatar>
-                    <ListItemText primary={title} Description secondary={time}/>
+                    <ListItemText primary={title} Description secondary={Date(time)}/>
                 </ListItem>
             </Link>
         )
@@ -51,33 +56,17 @@ class IncidentsView extends Component {
 
     render() {
         const { classes } = this.props;
+        let body = [];
+        console.log(this.state.incidents);
+        for (let i = 0; i < this.state.incidents.length; i++) {
+            let inc = this.state.incidents[i];
+            body.push(this.addListItems(inc.key, inc.title, inc.time));
+            console.log(i);
+        }
         return (
             <div className={classes.root}>
                 <List>
-                    <ListItem>
-                        <Avatar>
-                            <DescriptionIcon/>
-                        </Avatar>
-                        <ListItemText primary="Incident Description" secondary="Jan 9, 2014"/>
-                    </ListItem>
-                    <ListItem>
-                        <Avatar>
-                            <DescriptionIcon/>
-                        </Avatar>
-                        <ListItemText primary="Incident Description" secondary="Jan 9, 2014"/>
-                    </ListItem>
-                    <ListItem>
-                        <Avatar>
-                            <DescriptionIcon/>
-                        </Avatar>
-                        <ListItemText primary="Incident Description" secondary="Jan 9, 2014"/>
-                    </ListItem>
-                    <ListItem>
-                        <Avatar>
-                            <DescriptionIcon/>
-                        </Avatar>
-                        <ListItemText primary="Incident Description" secondary="Jan 9, 2014"/>
-                    </ListItem>
+                    {body}
                 </List>
             </div>
         );
