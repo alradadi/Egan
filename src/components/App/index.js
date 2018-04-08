@@ -83,7 +83,7 @@ class App extends React.Component {
                 <Navigation toggleDrawer={this.handleDrawerToggle}/>
             </div>
         );
-
+        debugger;
         return (
             <Router>
                 <div className={classes.root}>
@@ -94,7 +94,6 @@ class App extends React.Component {
                                 color="inherit"
                                 aria-label="open drawer"
                                 onClick={this.handleDrawerToggle}
-                                className={classes.navIconHide}
                             >
                                 <MenuIcon/>
                             </IconButton>
@@ -105,7 +104,6 @@ class App extends React.Component {
                     </AppBar>
                     <Drawer
                         variant="temporary"
-                        anchor={theme.direction === 'rtl' ? 'right' : 'left'}
                         open={this.state.drawerOpen}
                         onClose={this.handleDrawerToggle}
                         classes={{
@@ -119,13 +117,13 @@ class App extends React.Component {
                     </Drawer>
                     <main className={classes.content}>
                         <Switch>
-                            <Route exact path={routes.SIGN_IN} component={() => <SignInPage/>}/>
-                            <Route exact path={routes.SIGN_UP} component={() => <SignUpPage/>}/>
-                            <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage/>}/>
-                            <Route exact path={routes.ACCOUNT} component={() => <AccountPage/>}/>
+                            <Route exact path={routes.SIGN_IN} component={SignInPage}/>
+                            <Route exact path={routes.SIGN_UP} component={SignUpPage}/>
+                            <Route exact path={routes.PASSWORD_FORGET} component={PasswordForgetPage}/>
+                            <Route exact path={routes.ACCOUNT} component={AccountPage}/>
                             <Route exact path={routes.INCIDENTS} component={IncidentsView}/>
                             <Route exact path={routes.INCIDENT_DETAILS} component={IncidentDetailsView}/>
-                            <Route exact path={routes.SITES_LIST} component={() => <SiteList/>}/>
+                            <Route exact path={routes.SITES_LIST} component={SiteList}/>
                             <Redirect from="/" to="/sites"/>
                         </Switch>
                     </main>
