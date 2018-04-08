@@ -53,8 +53,10 @@ class RequestsView extends Component {
         console.log(this.state.requests);
         for (let i = 0; i < this.state.requests.length; i++) {
             let inc = this.state.requests[i];
-            body.push(this.addListItems(inc.key, inc.site, inc.time));
-            console.log(i);
+            if (inc.status && inc.status == 'open') {
+                body.push(this.addListItems(inc.key, inc.site, inc.time));
+            }
+            console.log(inc);
         }
         return (
             <div className={classes.root}>
