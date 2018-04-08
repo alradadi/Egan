@@ -32,13 +32,7 @@ const styles = theme => ({
 
 let SignInPage = ({history}) => {
     const Form = withStyles(styles)(SignInForm);
-    return (<div>
-            <h1>SignIn</h1>
-            <Form history={history}/>
-            <PasswordForgetLink/>
-            <SignUpLink/>
-        </div>
-    )
+    return <Form history={history}/>;
 }
 
 

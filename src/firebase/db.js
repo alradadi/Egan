@@ -10,23 +10,28 @@ export const doCreateUser = (id, username, email) =>
 export const onceGetUsers = () =>
   db.ref('users').once('value');
 
+
 export const doCreateIncident = (title, time, reporter, site, details) => {
-    console.log('create stuff');
-    var messageListRef = db.ref('incidents');
-    var newMessageRef = messageListRef.push();
-    newMessageRef.set({
+    const messageListRef = db.ref('incidents');
+    messageListRef.push({
         'title': title,
         'time': time,
         'reporter': reporter,
         'details': details,
     });
-}
-export const listenToIncidents = () =>
-    db.ref('incidents').on('child_added');
+};
 
 export const getIncident = (id) =>
     db.ref(`incidents/${id}`).once('value');
 
-export const updateIncident = (id, updates) =>
-    db.ref(`incidents/${id}`).update(updates);
-// Other db APIs ...
+
+
+export const getAllSites = () =>
+    db.ref('sites').once('value');
+
+
+
+export const createSite = (obj) => {
+    const ref = db.ref('sites');
+    ref.push(obj);
+};
