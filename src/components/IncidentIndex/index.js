@@ -10,6 +10,7 @@ import BeachAccessIcon from 'material-ui-icons/BeachAccess';
 import WithAuthorization from '../Session/withAuthorization';
 import {db} from '../../firebase/firebase';
 import { Link } from 'react-router-dom';
+import {convertObjToList} from "../../helpers";
 
 class IncidentsView extends Component {
     constructor(props) {
@@ -30,13 +31,9 @@ class IncidentsView extends Component {
         let self = this;
         let incRef = db.ref('incidents');
         incRef.on('value', function(data) {
-            let incident = data.val();
-            for (let key in incident) {
-                console.log(key);
-                self.setState({
-                    incidents: {key: key, title: incident[key].title, time: incident[key].time,}
-                });
-            }
+            self.setState({
+                incidents: convertObjToList(data.val())
+            });
         });
     }
 
