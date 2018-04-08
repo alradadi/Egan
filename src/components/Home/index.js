@@ -25,12 +25,11 @@ class HomePage extends Component {
         const {users} = this.state;
 
         return (
-            <div style={{margin: 20}}>
-                <h1>Users</h1>
+            <React.Fragment>
                 <List>
                     {!!users && <UserList users={users}/>}
                 </List>
-            </div>
+            </React.Fragment>
         );
     }
 }
@@ -49,7 +48,7 @@ const UserList = ({users}) =>
                 <Avatar>
                     <AccountCircleIcon/>
                 </Avatar>
-                <ListItemText key={key} primary={users[key].username} secondary={users[key].phone_number}></ListItemText>
+                <ListItemText key={key} primary={users[key].username} secondary={users[key].phone_number}/>
             </ListItem>
         )}
 
