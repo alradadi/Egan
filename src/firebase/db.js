@@ -7,17 +7,23 @@ export const doCreateUser = (id, username, email) =>
     username,
     email,
   });
+
 export const onceGetUsers = () =>
   db.ref('users').once('value');
 
 
+export const getUserById = (id) =>
+    db.ref(`users/${id}`).once('value');
+
+
 export const doCreateIncident = (title, time, reporter, site, details) => {
     const messageListRef = db.ref('incidents');
-    messageListRef.push({
-        'title': title,
-        'time': time,
-        'reporter': reporter,
-        'details': details,
+    return messageListRef.push({
+        title,
+        time,
+        reporter,
+        details,
+        site,
     });
 };
 
