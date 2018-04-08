@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "firebase": "^4.12.1",
+    "firechat": "^3.0.1",
     "material-ui": "^1.0.0-beta.40",
     "material-ui-icons": "^1.0.0-beta.36",
     "react": "^16.3.0",
