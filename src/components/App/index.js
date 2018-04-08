@@ -22,6 +22,7 @@ import IncidentDetailsView from '../IncidentDetails';
 import RequestsView from '../RequestIndex';
 import RequestDetailsView from '../RequestDetails';
 import HomePage from '../Home';
+import ChatView from '../Chat';
 import {SiteList} from '../Site';
 import withAuthentication from '../Session/withAuthentication';
 import Navigation from '../Navigation';
@@ -136,6 +137,7 @@ class App extends React.Component {
                             <Route exact path={routes.REQUESTS} component={RequestsView}/>
                             <Route exact path={routes.REQUEST_DETAILS} component={RequestDetailsView} />
                             <Route exact path={routes.USERS} component={HomePage} />
+                            <Route exact path={'/chat'} component={ChatView} />
                             <Redirect from="/" to="/sites"/>
                         </Switch>
                     </main>
