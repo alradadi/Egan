@@ -6,9 +6,17 @@ import {
 } from 'react-router-dom';
 
 
-class SiteItem extends Component{
+const styles = () => ({
+
+});
+
+class SiteDetails extends Component{
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount(){
+
     }
 
     render(){
@@ -18,5 +26,5 @@ class SiteItem extends Component{
     }
 }
 
-export default withStyles(styles)(SiteItem);
+export default withStyles(styles)(SiteDetails);
 

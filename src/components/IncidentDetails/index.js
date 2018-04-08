@@ -55,8 +55,7 @@ class IncidentDetailsView extends Component {
     }
 
     fetchIncident() {
-        let id = window.location.href.split('/')[4];
-        console.log(id);
+        let id = this.this.props.match.incidentId;
         let incident = db.getIncident(id).then(snapshot => {
             let v = snapshot.val();
             if (v != null)
@@ -67,7 +66,6 @@ class IncidentDetailsView extends Component {
                         time: v.time,
                         details: v.details,
                 }));
-            console.log(snapshot.val());
         });
     }
 

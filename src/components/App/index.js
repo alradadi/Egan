@@ -24,6 +24,7 @@ import withAuthentication from '../Session/withAuthentication';
 import Navigation from '../Navigation';
 import * as routes from '../../constants/routes';
 import SignInPage from "../SignIn";
+import SiteDetails from "../Site/SiteDetails";
 
 const drawerWidth = 240;
 
@@ -120,9 +121,10 @@ class App extends React.Component {
                             <Route exact path={routes.SIGN_UP} component={SignUpPage}/>
                             <Route exact path={routes.PASSWORD_FORGET} component={PasswordForgetPage}/>
                             <Route exact path={routes.ACCOUNT} component={AccountPage}/>
+                            <Route exact path={routes.SITES_LIST} component={SiteList}/>
+                            <Route exact path={routes.SITE} component={SiteDetails}/>
                             <Route exact path={routes.INCIDENTS} component={IncidentsView}/>
                             <Route exact path={routes.INCIDENT_DETAILS} component={IncidentDetailsView}/>
-                            <Route exact path={routes.SITES_LIST} component={SiteList}/>
                             <Redirect from="/" to="/sites"/>
                         </Switch>
                     </main>

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {withStyles} from 'material-ui/styles';
+import { Link } from 'react-router-dom';
 import List, {ListItem, ListItemText} from 'material-ui/List';
 
 import withAuthorization from '../Session/withAuthorization';
@@ -50,23 +51,25 @@ class SiteList extends Component {
         const {props, state} = this;
         return state.sites.map((site) => {
             return (
-                <ListItem className={props.classes.item} button key={site.key}>
-                    <ListItemText>
-                        <React.Fragment>
-                            <div className={props.classes.title}>{site.name}</div>
-                            <div className={props.classes.subheader}>
-                                <div>
-                                    <div>Count: {site.headCount}/{site.max}</div>
-                                    <div>Walk ins: {site.walkIns}</div>
+                <Link key={site.key} to={`/sites/${site.key}`}>
+                    <ListItem className={props.classes.item} button>
+                        <ListItemText>
+                            <React.Fragment>
+                                <div className={props.classes.title}>{site.name}</div>
+                                <div className={props.classes.subheader}>
+                                    <div>
+                                        <div>Count: {site.headCount}/{site.max}</div>
+                                        <div>Walk ins: {site.walkIns}</div>
+                                    </div>
+                                    <div>
+                                        <div>Status: {site.active}</div>
+                                        <div>Lead: {site.lead}</div>
+                                    </div>
                                 </div>
-                                <div>
-                                    <div>Status: {site.active}</div>
-                                    <div>Lead: {site.lead}</div>
-                                </div>
-                            </div>
-                        </React.Fragment>
-                    </ListItemText>
-                </ListItem>
+                            </React.Fragment>
+                        </ListItemText>
+                    </ListItem>
+                </Link>
             );
         });
     }

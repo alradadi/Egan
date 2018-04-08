@@ -44,7 +44,7 @@ class IncidentsView extends Component {
                     <Avatar>
                         <DescriptionIcon/>
                     </Avatar>
-                    <ListItemText primary={title} Description secondary={Date(time)}/>
+                    <ListItemText primary={title} secondary={Date(time)}/>
                 </ListItem>
             </Link>
         )
