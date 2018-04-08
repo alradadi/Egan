@@ -69,7 +69,7 @@ const styles = theme => ({
     content: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        paddingTop: theme.mixins.toolbar.minHeight,
+        paddingTop: theme.mixins.toolbar.minHeight + 5,
         overflow: 'auto',
     },
 });
