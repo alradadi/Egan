@@ -38,6 +38,18 @@ const styles = () => ({
         marginLeft: 10,
     },
     cancelButton: {},
+    requestSuppliesBtn: {
+        marginTop: 'auto',
+        marginBottom: 10,
+    },
+    reportIncidentBtn: {
+        marginBottom: 10,
+    },
+    siteName: {
+        fontSize: '1.5rem',
+        marginBottom: 15,
+        marginRight: 26,
+    }
 });
 
 class SiteDetails extends Component {
@@ -76,11 +88,11 @@ class SiteDetails extends Component {
         };
     }
 
-    cancelEditing(){
+    cancelEditing() {
         this.setState({editing: false, site: this.seedSite});
     }
 
-    saveForm(){
+    saveForm() {
         const id = this.props.match.params.siteId;
         db.updateSite(id, this.state.site);
         this.setState({
@@ -109,6 +121,7 @@ class SiteDetails extends Component {
         if (state.editing) {
             return (
                 <div className={classes.container}>
+                    <div className={classes.siteName}>{site.name}</div>
                     <div className={classes.row}>
                         <div>
                             Lead
@@ -125,7 +138,7 @@ class SiteDetails extends Component {
                         </div>
                         <TextField
                             fullWidth
-                            value={site.max != null? site.max: ''}
+                            value={site.max != null ? site.max : ''}
                             onChange={this.onInputChange('max')}
                         />
                     </div>
@@ -135,7 +148,7 @@ class SiteDetails extends Component {
                         </div>
                         <TextField
                             fullWidth
-                            value={site.walkins != null? site.walkins : ''}
+                            value={site.walkins != null ? site.walkins : ''}
                             onChange={this.onInputChange('walkins')}
                         />
                     </div>
@@ -145,7 +158,7 @@ class SiteDetails extends Component {
                         </div>
                         <TextField
                             fullWidth
-                            value={site.headCount != null? site.headCount : ''}
+                            value={site.headCount != null ? site.headCount : ''}
                             onChange={this.onInputChange('headCount')}
                         />
                     </div>
@@ -185,6 +198,7 @@ class SiteDetails extends Component {
                     <IconButton className={classes.editButton} onClick={this.toggleEditing}>
                         <ModeEdit/>
                     </IconButton>
+                    <div className={classes.siteName}>{site.name}</div>
                     <div className={classes.row}>
                         <div>
                             Lead
@@ -225,6 +239,22 @@ class SiteDetails extends Component {
                             {site.status || ''}
                         </div>
                     </div>
+                    <Button
+                        className={classes.requestSuppliesBtn}
+                        // onClick={this.cancelEditing}
+                        color="primary"
+                        variant="raised"
+                    >
+                        Request supplies
+                    </Button>
+                    <Button
+                        className={classes.reportIncidentBtn}
+                        // onClick={this.cancelEditing}
+                        color="primary"
+                        variant="raised"
+                    >
+                        Report incident
+                    </Button>
                 </div>
             );
         }
