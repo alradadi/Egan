@@ -34,14 +34,8 @@ const styles = theme => ({
             height: '100%',
             backgroundColor: '#dadada',
             fontFamily: 'Roboto, sans-serif',
-            [theme.breakpoints.down('md')]: {
-                fontSize: 14,
-            },
             [theme.breakpoints.down('sm')]: {
-                fontSize: 13,
-            },
-            [theme.breakpoints.down('xs')]: {
-                fontSize: 12,
+                fontSize: 14,
             },
         },
         a: {

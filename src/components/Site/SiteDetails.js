@@ -6,7 +6,9 @@ import ModeEdit from 'material-ui-icons/ModeEdit';
 import TextField from 'material-ui/TextField';
 import grey from 'material-ui/colors/grey';
 import Loader from '../Loader';
+import ReportIncident from '../ResponsiveDialog';
 import {db} from "../../firebase";
+import withAuthorization from "../Session/withAuthorization";
 
 
 const styles = () => ({
@@ -60,11 +62,13 @@ class SiteDetails extends Component {
             site: {},
             fetching: true,
             editing: false,
+            incidentDialogOpen: false,
         };
 
         this.toggleEditing = this.toggleEditing.bind(this);
         this.cancelEditing = this.cancelEditing.bind(this);
         this.saveForm = this.saveForm.bind(this);
+        this.toggleIncidentDialog = this.toggleIncidentDialog.bind(this);
     }
 
     componentDidMount() {
@@ -97,6 +101,12 @@ class SiteDetails extends Component {
         db.updateSite(id, this.state.site);
         this.setState({
             editing: false,
+        });
+    }
+
+    toggleIncidentDialog(){
+        this.setState({
+            incidentDialogOpen: !this.state.incidentDialogOpen
         });
     }
 
@@ -138,6 +148,7 @@ class SiteDetails extends Component {
                         </div>
                         <TextField
                             fullWidth
+                            type="number"
                             value={site.max != null ? site.max : ''}
                             onChange={this.onInputChange('max')}
                         />
@@ -148,6 +159,7 @@ class SiteDetails extends Component {
                         </div>
                         <TextField
                             fullWidth
+                            type="number"
                             value={site.walkins != null ? site.walkins : ''}
                             onChange={this.onInputChange('walkins')}
                         />
@@ -158,6 +170,7 @@ class SiteDetails extends Component {
                         </div>
                         <TextField
                             fullWidth
+                            type="number"
                             value={site.headCount != null ? site.headCount : ''}
                             onChange={this.onInputChange('headCount')}
                         />
@@ -228,7 +241,7 @@ class SiteDetails extends Component {
                             Head Count
                         </div>
                         <div className={classes.rowText}>
-                            {site.headCount || ''}
+                            {site.headCount != null? site.headCount : ''}
                         </div>
                     </div>
                     <div className={classes.row}>
@@ -249,17 +262,27 @@ class SiteDetails extends Component {
                     </Button>
                     <Button
                         className={classes.reportIncidentBtn}
-                        // onClick={this.cancelEditing}
+                        onClick={this.toggleIncidentDialog}
                         color="primary"
                         variant="raised"
                     >
                         Report incident
                     </Button>
+                    <ReportIncident
+                        open={state.incidentDialogOpen}
+                        onClose={this.toggleIncidentDialog}
+                        site={state.site}
+                        history={props.history}
+                    />
                 </div>
             );
         }
     }
 }
 
-export default withStyles(styles)(SiteDetails);
+
+const authCondition = (authUser) => !!authUser;
+
+
+export default withAuthorization(authCondition)(withStyles(styles)(SiteDetails));
 
