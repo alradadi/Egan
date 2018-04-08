@@ -59,10 +59,10 @@ class SiteList extends Component {
                                 <div className={props.classes.subheader}>
                                     <div>
                                         <div>Count: {site.headCount}/{site.max}</div>
-                                        <div>Walk ins: {site.walkIns}</div>
+                                        <div>Walk ins: {site.walkins}</div>
                                     </div>
                                     <div>
-                                        <div>Status: {site.active}</div>
+                                        <div>Status: {site.status}</div>
                                         <div>Lead: {site.lead}</div>
                                     </div>
                                 </div>

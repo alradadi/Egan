@@ -34,8 +34,12 @@ export const getAllSites = () =>
     db.ref('sites').once('value');
 
 
-
 export const createSite = (obj) => {
     const ref = db.ref('sites');
     ref.push(obj);
+};
+
+
+export const updateSite = (id, newValue) => {
+    db.ref(`sites/${id}`).update(newValue);
 };
