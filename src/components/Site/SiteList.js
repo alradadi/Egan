@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {withStyles} from 'material-ui/styles';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import List, {ListItem, ListItemText} from 'material-ui/List';
+import TextField from 'material-ui/TextField';
 import Loader from '../Loader';
 import withAuthorization from '../Session/withAuthorization';
 import {db} from "../../firebase/firebase";
@@ -24,7 +25,10 @@ const styles = () => ({
             display: 'flex',
             flexDirection: 'column',
         }
-    }
+    },
+    searchContainer: {
+        padding: '10px 10px 0 10px',
+    },
 });
 
 class SiteList extends Component {
@@ -33,21 +37,37 @@ class SiteList extends Component {
 
         this.state = {
             fetching: true,
-            sites: []
+            sites: [],
+            searchInput: '',
         };
+
+        this.onChangeSearch = this.onChangeSearch.bind(this);
     }
 
     componentDidMount() {
         this.fetchData();
     }
 
+    onChangeSearch(e) {
+        const searchTerm = e.target.value;
+        this.setState({
+            searchInput: searchTerm,
+            sites: this.seedSites.filter((site) => {
+                return site.name.toLowerCase().includes(searchTerm.toLowerCase());
+            })
+        })
+    }
+
     fetchData() {
         const ref = db.ref('sites');
         ref.on('value', (data) => {
+            const sites = convertObjToList(data.val());
+            sites.reverse();
             this.setState({
-                sites: convertObjToList(data.val()),
+                sites,
                 fetching: false,
             });
+            this.seedSites = sites;
         });
     }
 
@@ -79,13 +99,25 @@ class SiteList extends Component {
     }
 
     render() {
-        if(this.state.fetching){
+        const {props, state} = this;
+        if (state.fetching) {
             return <Loader/>;
         }
         return (
-            <List component="nav">
-                {this.renderList()}
-            </List>
+            <div>
+                <div className={props.classes.searchContainer}>
+                    <TextField
+                        value={state.searchInput}
+                        fullWidth
+                        type="text"
+                        placeholder="Search..."
+                        onChange={this.onChangeSearch}
+                    />
+                </div>
+                <List component="nav">
+                    {this.renderList()}
+                </List>
+            </div>
         );
     }
 }

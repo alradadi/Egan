@@ -29,8 +29,10 @@ class IncidentsView extends Component {
         let self = this;
         let incRef = db.ref('incidents');
         incRef.on('value', function(data) {
+            const incidents = convertObjToList(data.val());
+            incidents.reverse();
             self.setState({
-                incidents: convertObjToList(data.val()),
+                incidents,
                 fetching: false,
             });
         });

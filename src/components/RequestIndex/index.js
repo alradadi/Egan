@@ -29,9 +29,11 @@ class RequestsView extends Component {
         let self = this;
         let incRef = db.ref('requests');
         incRef.on('value', function(data) {
+            const requests = convertObjToList(data.val());
+            requests.reverse();
             self.setState({
                 fetching: false,
-                requests: convertObjToList(data.val())
+                requests,
             });
         });
     }
