@@ -26,6 +26,10 @@ export const getIncident = (id) =>
 
 
 
+export const getSite = (id) =>
+    db.ref(`sites/${id}`).once('value');
+
+
 export const getAllSites = () =>
     db.ref('sites').once('value');
 

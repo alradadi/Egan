@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
-import ImageIcon from 'material-ui-icons/Image';
 import DescriptionIcon from 'material-ui-icons/Description';
-import WorkIcon from 'material-ui-icons/Work';
-import BeachAccessIcon from 'material-ui-icons/BeachAccess';
 import WithAuthorization from '../Session/withAuthorization';
 import {db} from '../../firebase/firebase';
 import { Link } from 'react-router-dom';
@@ -17,14 +13,14 @@ class IncidentsView extends Component {
         super(props);
         this.state = {
             incidents: [],
-        }
+        };
         this.fetchAllIncidents = this.fetchAllIncidents.bind(this);
     }
 
 
     componentDidMount() {
         this.fetchAllIncidents();
-    } //asdfadsfasdf
+    }
 
 
     fetchAllIncidents() {

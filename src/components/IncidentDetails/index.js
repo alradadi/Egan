@@ -51,7 +51,6 @@ class IncidentDetailsView extends Component {
 
     componentDidMount() {
         this.fetchIncident();
-
     }
 
     fetchIncident() {
