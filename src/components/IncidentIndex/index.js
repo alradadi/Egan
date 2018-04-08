@@ -39,7 +39,7 @@ class IncidentsView extends Component {
 
     addListItems(key, title, time) {
         return (
-            <Link to={`/incidents/${key}`}>
+            <Link key={key} to={`/incidents/${key}`}>
                 <ListItem button>
                     <Avatar>
                         <DescriptionIcon/>
