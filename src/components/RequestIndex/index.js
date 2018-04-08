@@ -2,45 +2,45 @@ import React, {Component} from 'react';
 import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
-import FeedbackIcon from 'material-ui-icons/Feedback';
+import DescriptionIcon from 'material-ui-icons/Description';
 import WithAuthorization from '../Session/withAuthorization';
 import {db} from '../../firebase/firebase';
 import { Link } from 'react-router-dom';
 import {convertObjToList} from "../../helpers";
 
-class IncidentsView extends Component {
+class RequestsView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            incidents: [],
+            requests: [],
         };
-        this.fetchAllIncidents = this.fetchAllIncidents.bind(this);
+        this.fetchAllRequests = this.fetchAllRequests.bind(this);
     }
 
 
     componentDidMount() {
-        this.fetchAllIncidents();
+        this.fetchAllRequests();
     }
 
 
-    fetchAllIncidents() {
+    fetchAllRequests() {
         let self = this;
-        let incRef = db.ref('incidents');
+        let incRef = db.ref('requests');
         incRef.on('value', function(data) {
             self.setState({
-                incidents: convertObjToList(data.val())
+                requests: convertObjToList(data.val())
             });
         });
     }
 
-    addListItems(key, title, time) {
+    addListItems(key, site, time) {
         return (
-            <Link key={key} to={`/incidents/${key}`}>
+            <Link key={key} to={`/requests/${key}`}>
                 <ListItem button>
                     <Avatar>
-                        <FeedbackIcon/>
+                        <DescriptionIcon/>
                     </Avatar>
-                    <ListItemText primary={title} secondary={Date(time)}/>
+                    <ListItemText primary={site} secondary={Date(time)}/>
                 </ListItem>
             </Link>
         )
@@ -50,10 +50,10 @@ class IncidentsView extends Component {
     render() {
         const { classes } = this.props;
         let body = [];
-        console.log(this.state.incidents);
-        for (let i = 0; i < this.state.incidents.length; i++) {
-            let inc = this.state.incidents[i];
-            body.push(this.addListItems(inc.key, inc.title, inc.time));
+        console.log(this.state.requests);
+        for (let i = 0; i < this.state.requests.length; i++) {
+            let inc = this.state.requests[i];
+            body.push(this.addListItems(inc.key, inc.site, inc.time));
             console.log(i);
         }
         return (
@@ -85,4 +85,4 @@ const styles = theme => ({
 
 
 const authCondition = (authUser) => !!authUser;
-export default WithAuthorization(authCondition)(withStyles(styles)(IncidentsView));
+export default WithAuthorization(authCondition)(withStyles(styles)(RequestsView));

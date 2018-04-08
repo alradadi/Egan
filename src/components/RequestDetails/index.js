@@ -22,53 +22,53 @@ const styles = theme => ({
     button: {
         margin: theme.spacing.unit,
     },
+    h2: {
+        margin: theme.spacing.unit,
+    }
 });
 
 const updateByPropertyName = (propertyName, value) => () => ({
     [propertyName]: value,
 });
 
-const INITIAL_STATE = {
-    title: 'TITLE',
-    site: 'test site',
-    time: '',
-    reporter: 'joey',
-    details: '',
-    disabledForm: true,
-    displayDelete: false,
-    displaySave: false,
-    displayEdit: false,
-    error: null,
-};
 
-class IncidentDetailsView extends Component {
+class RequestDetailsView extends Component {
     constructor(props) {
         super(props);
         this.onClickSave = this.onClickSave.bind(this);
         this.onClickEdit = this.onClickEdit.bind(this);
+        this.onClickClose = this.onClickClose.bind(this);
         this.onClickCreate = this.onClickCreate.bind(this);
-
-        this.state = {...INITIAL_STATE};
+        this.state = {
+            id: this.props.match.params.requestId,
+            site: 'test site',
+            requester: '',
+            time: '',
+            details: '',
+            disabledForm: true,
+            displayDelete: false,
+            displaySave: false,
+            displayEdit: false,
+            error: null,
+        };
     }
 
     componentDidMount() {
-        this.fetchIncident();
-
+        this.fetchRequest();
     }
 
-    fetchIncident() {
-        let id = this.props.match.params.incidentId;
-        let incident = db.getIncident(id).then(snapshot => {
+    fetchRequest() {
+        let incident = db.getRequest(this.state.id).then(snapshot => {
             let v = snapshot.val();
             console.log(v);
             if (v != null)
                 this.setState(() => (
-                    {   title: v.title,
-                        site: v.site,
-                        reporter: v.reporter,
+                    {   site: v.site,
+                        requester: v.requester,
                         time: v.time,
                         details: v.details,
-                }));
+                        status: v.status,
+                    }));
         });
     }
 
@@ -76,16 +76,26 @@ class IncidentDetailsView extends Component {
         this.setState({
             disabledForm: true,
         });
-        const { title, reporter, site, time, details } = this.state;
-        let updates = {title: title, site: site, reporter: reporter, time: time, details: details};
-        let id = window.location.href.split('/')[4];
-        db.updateIncident(id, updates);
-        this.fetchIncident();
+        const d = new Date();
+        const newTime = d.toISOString().split('.')[0];
+        console.log(newTime);
+        const { site, details } = this.state;
+        let updates = {site: site, details: details, time: newTime};
+        db.updateRequest(this.state.id, updates);
+        this.fetchRequest();
     }
     onClickEdit() {
         this.setState({
             disabledForm: !this.state.disabledForm,
         });
+    }
+    onClickClose() {
+        this.setState({
+            disabledForm: true,
+        });
+        let updates = {status: 'closed'};
+        db.updateRequest(this.state.id, updates);
+        this.fetchRequest();
     }
     onClickCreate() {
         db.doCreateIncident(this.state.incident.title, this.state.incident.time, 'joey', 'testSite', this.state.incident.details);
@@ -95,9 +105,10 @@ class IncidentDetailsView extends Component {
         console.log(this.props);
         const { classes } = this.props;
         const {
-            title,
+            id,
+            status,
             site,
-            reporter,
+            requester,
             time,
             details,
             displayEdit,
@@ -107,24 +118,14 @@ class IncidentDetailsView extends Component {
 
         return (
             <div className={classes.container}>
-                <h1>{title}</h1>
+                <h1>{`Order # ${id} -- ${status}`}</h1>
                 <TextField
                     className={classes.textField}
                     label='Site Name'
                     value={site}
                     onChange={event => this.setState(updateByPropertyName('site', event.target.value))}
                     type="text"
-                    disabled
                 />
-                <TextField
-                    className={classes.textField}
-                    label='Reporter'
-                    value={reporter}
-                    onChange={event => this.setState(updateByPropertyName('details', event.target.value))}
-                    type="text"
-                    disabled
-                />
-
                 <TextField
                     className={classes.textField}
                     label='Date & Time'
@@ -132,17 +133,25 @@ class IncidentDetailsView extends Component {
                     onChange={event => this.setState(updateByPropertyName('time', event.target.value))}
                     type="datetime-local"
                     defaultValue="2017-05-24T10:30"
-                    disabled={disabledForm}
+                    disabled
                     InputLabelProps={{
                         shrink: true,
                     }}
                 />
 
                 <TextField
+                    className={classes.textField}
+                    label='Requester'
+                    value={requester}
+                    onChange={event => this.setState(updateByPropertyName('details', event.target.value))}
+                    type="text"
+                    disabled
+                />
+                <TextField
                     multiline
                     rowsMax="4"
                     className={classes.textField}
-                    label='Incident Details'
+                    label='Request Details'
                     value={details}
                     onChange={event => this.setState(updateByPropertyName('details', event.target.value))}
                     type="text"
@@ -155,8 +164,10 @@ class IncidentDetailsView extends Component {
                             onClick={this.onClickSave}>
                         Save
                     </Button>
-                    {/*<Button variant="raised" color="secondary" className={classes.button}>Delete</Button>*/}
-                    {/*{`current user is: ${auth.user}`}*/}
+                    <Button variant="raised" color="secondary" className={classes.button}
+                            onClick={this.onClickClose}>
+                        Close
+                    </Button>
                 </div>
             </div>
 
@@ -167,4 +178,4 @@ class IncidentDetailsView extends Component {
 }
 const authCondition = (authUser) => !!authUser;
 
-export default WithAuthorization(authCondition)(withStyles(styles)(IncidentDetailsView));
+export default WithAuthorization(authCondition)(withStyles(styles)(RequestDetailsView));

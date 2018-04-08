@@ -40,6 +40,14 @@ const NavigationAuth = (props) =>
                 <ListItemText primary="Incidents"/>
             </ListItem>
         </Link>
+        <Link to={"/requests"} onClick={props.toggleDrawer}>
+            <ListItem button>
+                <ListItemIcon>
+                    <Label/>
+                </ListItemIcon>
+                <ListItemText primary="Requests"/>
+            </ListItem>
+        </Link>
         <ListItem button onClick={() => {
             props.toggleDrawer();
             auth.doSignOut();
