@@ -34,7 +34,7 @@ class IncidentsView extends Component {
             for (let key in incident) {
                 console.log(key);
                 self.setState({
-                    incidents: [...self.state.incidents, {key: key, title: incident[key].title, time: incident[key].time,}]
+                    incidents: {key: key, title: incident[key].title, time: incident[key].time,}
                 });
             }
         });
@@ -42,7 +42,7 @@ class IncidentsView extends Component {
 
     addListItems(key, title, time) {
         return (
-            <Link to={`/incidents/${key}`}>
+            <Link key={key} to={`/incidents/${key}`}>
                 <ListItem button>
                     <Avatar>
                         <DescriptionIcon/>
