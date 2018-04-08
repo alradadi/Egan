@@ -37,13 +37,15 @@ class IncidentsView extends Component {
     }
 
     addListItems(key, title, time) {
+        let d = new Date(time);
+        let dateTime = d.toLocaleDateString() + " @ " + d.toLocaleTimeString();
         return (
             <Link key={key} to={`/incidents/${key}`}>
                 <ListItem button>
                     <Avatar>
                         <FeedbackIcon/>
                     </Avatar>
-                    <ListItemText primary={title} secondary={Date(time)}/>
+                    <ListItemText primary={title} secondary={dateTime}/>
                 </ListItem>
             </Link>
         )

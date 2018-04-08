@@ -129,6 +129,7 @@ class RequestDetailsView extends Component {
                     value={site}
                     onChange={event => this.setState(updateByPropertyName('site', event.target.value))}
                     type="text"
+                    disabled
                 />
                 <TextField
                     className={classes.textField}

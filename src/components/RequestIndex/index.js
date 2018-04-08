@@ -43,7 +43,7 @@ class RequestsView extends Component {
                     <Avatar>
                         <DescriptionIcon/>
                     </Avatar>
-                    <ListItemText primary={site} secondary={Date(time)}/>
+                    <ListItemText primary={site} secondary={time}/>
                 </ListItem>
             </Link>
         )
@@ -58,8 +58,10 @@ class RequestsView extends Component {
         }
         for (let i = 0; i < this.state.requests.length; i++) {
             let inc = this.state.requests[i];
+            let d = new Date(inc.time);
+            let dateTime = d.toLocaleDateString() + " @ " + d.toLocaleTimeString();
             if (inc.status && inc.status == 'open') {
-                body.push(this.addListItems(inc.key, inc.site, inc.time));
+                body.push(this.addListItems(inc.key, inc.site, dateTime));
             }
             console.log(inc);
         }
