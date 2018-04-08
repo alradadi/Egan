@@ -33,6 +33,7 @@ const styles = theme => ({
         'html, body': {
             height: '100%',
             backgroundColor: '#dadada',
+            fontFamily: 'Roboto, sans-serif',
         },
         a: {
             color: 'inherit',
@@ -62,7 +63,7 @@ const styles = theme => ({
     content: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        paddingTop: 64,
+        paddingTop: theme.mixins.toolbar.minHeight,
         overflow: 'auto',
     },
 });
