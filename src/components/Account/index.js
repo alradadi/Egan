@@ -10,7 +10,8 @@ const AccountPage = () =>
     {authUser =>
       <div  style={{margin: 20}}>
         <h1>Account: {authUser.email}</h1>
-        <PasswordForgetForm />
+        {/*<PasswordForgetForm />*/}
+        <div style={{margin: 20}}/>
         <PasswordChangeForm />
       </div>
     }

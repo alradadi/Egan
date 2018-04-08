@@ -59,8 +59,8 @@ class PasswordForgetForm extends Component {
           type="text"
           placeholder="Email Address"
         />
-        <Button disabled={isInvalid} type="submit" variant="raised" color="primary" style={{ marginLeft: 10, height: '75%'}}>
-          Reset My Password
+        <Button disabled={isInvalid} type="submit" variant="raised" color="primary" style={{ marginLeft: 10, width: '40%', height: '75%'}}>
+          Reset Pwd
         </Button>
 
         { error && <p>{error.message}</p> }
