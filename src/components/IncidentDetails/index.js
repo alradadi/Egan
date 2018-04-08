@@ -1,11 +1,8 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
-import classNames from 'classnames';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import {withStyles} from 'material-ui/styles';
-import grey from 'material-ui/colors/grey';
-import * as routes from '../../constants/routes';
+import Loader from '../Loader';
 import {auth, db} from '../../firebase';
 import WithAuthorization from '../Session/withAuthorization';
 
@@ -39,6 +36,7 @@ const INITIAL_STATE = {
     displaySave: false,
     displayEdit: false,
     error: null,
+    fetching: true,
 };
 
 class IncidentDetailsView extends Component {
@@ -53,14 +51,12 @@ class IncidentDetailsView extends Component {
 
     componentDidMount() {
         this.fetchIncident();
-
     }
 
     fetchIncident() {
         let id = this.props.match.params.incidentId;
         let incident = db.getIncident(id).then(snapshot => {
             let v = snapshot.val();
-            console.log(v);
             if (v != null)
                 this.setState(() => (
                     {   title: v.title,
@@ -68,6 +64,7 @@ class IncidentDetailsView extends Component {
                         reporter: v.reporter,
                         time: v.time,
                         details: v.details,
+                        fetching: false,
                 }));
         });
     }
@@ -92,7 +89,6 @@ class IncidentDetailsView extends Component {
     }
 
     render() {
-        console.log(this.props);
         const { classes } = this.props;
         const {
             title,
@@ -104,7 +100,9 @@ class IncidentDetailsView extends Component {
             disabledForm,
             error,
         } = this.state;
-
+        if(this.state.fetching){
+            return <Loader/>;
+        }
         return (
             <div className={classes.container}>
                 <h1>{title}</h1>

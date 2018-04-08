@@ -3,6 +3,7 @@ import { withStyles } from 'material-ui/styles';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import DescriptionIcon from 'material-ui-icons/Description';
+import Loader from '../Loader';
 import WithAuthorization from '../Session/withAuthorization';
 import {db} from '../../firebase/firebase';
 import { Link } from 'react-router-dom';
@@ -12,6 +13,7 @@ class RequestsView extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            fetching: true,
             requests: [],
         };
         this.fetchAllRequests = this.fetchAllRequests.bind(this);
@@ -28,6 +30,7 @@ class RequestsView extends Component {
         let incRef = db.ref('requests');
         incRef.on('value', function(data) {
             self.setState({
+                fetching: false,
                 requests: convertObjToList(data.val())
             });
         });
@@ -50,7 +53,9 @@ class RequestsView extends Component {
     render() {
         const { classes } = this.props;
         let body = [];
-        console.log(this.state.requests);
+        if(this.state.fetching){
+            return <Loader/>;
+        }
         for (let i = 0; i < this.state.requests.length; i++) {
             let inc = this.state.requests[i];
             if (inc.status && inc.status == 'open') {

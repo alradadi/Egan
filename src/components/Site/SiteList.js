@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {withStyles} from 'material-ui/styles';
 import { Link } from 'react-router-dom';
 import List, {ListItem, ListItemText} from 'material-ui/List';
-
+import Loader from '../Loader';
 import withAuthorization from '../Session/withAuthorization';
 import {db} from "../../firebase/firebase";
 import {convertObjToList} from '../../helpers';
@@ -31,7 +31,10 @@ class SiteList extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {sites: []};
+        this.state = {
+            fetching: true,
+            sites: []
+        };
     }
 
     componentDidMount() {
@@ -42,7 +45,8 @@ class SiteList extends Component {
         const ref = db.ref('sites');
         ref.on('value', (data) => {
             this.setState({
-                sites: convertObjToList(data.val())
+                sites: convertObjToList(data.val()),
+                fetching: false,
             });
         });
     }
@@ -75,6 +79,9 @@ class SiteList extends Component {
     }
 
     render() {
+        if(this.state.fetching){
+            return <Loader/>;
+        }
         return (
             <List component="nav">
                 {this.renderList()}

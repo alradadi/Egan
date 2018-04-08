@@ -1,11 +1,8 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
-import classNames from 'classnames';
 import TextField from 'material-ui/TextField';
 import Button from 'material-ui/Button';
 import {withStyles} from 'material-ui/styles';
-import grey from 'material-ui/colors/grey';
-import * as routes from '../../constants/routes';
+import Loader from '../Loader';
 import {auth, db} from '../../firebase';
 import WithAuthorization from '../Session/withAuthorization';
 
@@ -50,6 +47,7 @@ class RequestDetailsView extends Component {
             displaySave: false,
             displayEdit: false,
             error: null,
+            fetching: true,
         };
     }
 
@@ -68,6 +66,7 @@ class RequestDetailsView extends Component {
                         time: v.time,
                         details: v.details,
                         status: v.status,
+                        fetching: false,
                     }));
         });
     }
@@ -84,11 +83,13 @@ class RequestDetailsView extends Component {
         db.updateRequest(this.state.id, updates);
         this.fetchRequest();
     }
+
     onClickEdit() {
         this.setState({
             disabledForm: !this.state.disabledForm,
         });
     }
+
     onClickClose() {
         this.setState({
             disabledForm: true,
@@ -97,12 +98,12 @@ class RequestDetailsView extends Component {
         db.updateRequest(this.state.id, updates);
         this.fetchRequest();
     }
+
     onClickCreate() {
         db.doCreateIncident(this.state.incident.title, this.state.incident.time, 'joey', 'testSite', this.state.incident.details);
     }
 
     render() {
-        console.log(this.props);
         const { classes } = this.props;
         const {
             id,
@@ -116,6 +117,9 @@ class RequestDetailsView extends Component {
             error,
         } = this.state;
 
+        if(this.state.fetching){
+            return <Loader/>
+        }
         return (
             <div className={classes.container}>
                 <h1>{`Order # ${id} -- ${status}`}</h1>
