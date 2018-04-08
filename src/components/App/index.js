@@ -18,7 +18,7 @@ import SignUpPage from '../SignUp';
 import PasswordForgetPage from '../PasswordForget';
 import AccountPage from '../Account';
 import IncidentDetailsView from '../IncidentDetails';
-import SitesList from '../Site';
+import {SiteList} from '../Site';
 import withAuthentication from '../Session/withAuthentication';
 import Navigation from '../Navigation';
 import * as routes from '../../constants/routes';
@@ -47,7 +47,6 @@ const styles = theme => ({
         backgroundColor: '#fafafa',
         maxWidth: 600,
         margin: '0 auto',
-        overflow: 'auto',
     },
     appBar: {
         position: 'absolute',
@@ -61,7 +60,8 @@ const styles = theme => ({
     content: {
         flexGrow: 1,
         backgroundColor: theme.palette.background.default,
-        padding: '71px 15px 15px 15px',
+        paddingTop: 64,
+        overflow: 'auto',
     },
 });
 
@@ -123,7 +123,7 @@ class App extends React.Component {
                             <Route exact path={routes.PASSWORD_FORGET} component={() => <PasswordForgetPage/>}/>
                             <Route exact path={routes.ACCOUNT} component={() => <AccountPage/>}/>
                             <Route exact path={routes.INCIDENT_DETAILS} component={IncidentDetailsView}/>
-                            <Route exact path={routes.SITES_LIST} component={() => <SitesList/>}/>
+                            <Route exact path={routes.SITES_LIST} component={() => <SiteList/>}/>
                             <Redirect from="/" to="/sites"/>
                         </Switch>
                     </main>
