@@ -21,7 +21,12 @@ export const doCreateIncident = (title, time, reporter, site, details) => {
         'details': details,
     });
 }
+export const listenToIncidents = () =>
+    db.ref('incidents').on('child_added');
+
 export const getIncident = (id) =>
-    // db.ref(`incidents/${id}`).once('value');
     db.ref(`incidents/${id}`).once('value');
+
+export const updateIncident = (id, updates) =>
+    db.ref(`incidents/${id}`).update(updates);
 // Other db APIs ...
