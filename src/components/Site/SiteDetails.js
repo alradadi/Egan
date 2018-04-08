@@ -6,7 +6,8 @@ import ModeEdit from 'material-ui-icons/ModeEdit';
 import TextField from 'material-ui/TextField';
 import grey from 'material-ui/colors/grey';
 import Loader from '../Loader';
-import ReportIncident from '../ResponsiveDialog';
+import ReportIncident from '../ReportIncidentDialog';
+import RequestSuppliesDialog from '../RequestSuppliesDialog';
 import {db} from "../../firebase";
 import withAuthorization from "../Session/withAuthorization";
 
@@ -63,12 +64,14 @@ class SiteDetails extends Component {
             fetching: true,
             editing: false,
             incidentDialogOpen: false,
+            suppliesDialogOpen: false,
         };
 
         this.toggleEditing = this.toggleEditing.bind(this);
         this.cancelEditing = this.cancelEditing.bind(this);
         this.saveForm = this.saveForm.bind(this);
         this.toggleIncidentDialog = this.toggleIncidentDialog.bind(this);
+        this.toggleSuppliesDialog = this.toggleSuppliesDialog.bind(this);
     }
 
     componentDidMount() {
@@ -107,6 +110,12 @@ class SiteDetails extends Component {
     toggleIncidentDialog(){
         this.setState({
             incidentDialogOpen: !this.state.incidentDialogOpen
+        });
+    }
+
+    toggleSuppliesDialog(){
+        this.setState({
+            suppliesDialogOpen: !this.state.suppliesDialogOpen
         });
     }
 
@@ -254,7 +263,7 @@ class SiteDetails extends Component {
                     </div>
                     <Button
                         className={classes.requestSuppliesBtn}
-                        // onClick={this.cancelEditing}
+                        onClick={this.toggleSuppliesDialog}
                         color="primary"
                         variant="raised"
                     >
@@ -271,6 +280,12 @@ class SiteDetails extends Component {
                     <ReportIncident
                         open={state.incidentDialogOpen}
                         onClose={this.toggleIncidentDialog}
+                        site={state.site}
+                        history={props.history}
+                    />
+                    <RequestSuppliesDialog
+                        open={state.suppliesDialogOpen}
+                        onClose={this.toggleSuppliesDialog}
                         site={state.site}
                         history={props.history}
                     />

@@ -27,6 +27,11 @@ export const doCreateIncident = (title, time, reporter, site, details) => {
     });
 };
 
+export const createRequest = (obj) => {
+    const ref = db.ref('requests');
+    return ref.push(obj);
+};
+
 export const getIncident = (id) =>
     db.ref(`incidents/${id}`).once('value');
 
