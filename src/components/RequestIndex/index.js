@@ -65,7 +65,6 @@ class RequestsView extends Component {
             if (inc.status && inc.status == 'open') {
                 body.push(this.addListItems(inc.key, inc.site, dateTime));
             }
-            console.log(inc);
         }
         return (
             <div className={classes.root}>

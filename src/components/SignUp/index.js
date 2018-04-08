@@ -92,7 +92,6 @@ class SignUpForm extends Component {
     }
 
     render() {
-        console.log(this.props);
         const { classes } = this.props;
         const {
             username,
@@ -143,7 +142,7 @@ class SignUpForm extends Component {
                     label="Confirm Password"
                 />
                 <Button disabled={isInvalid} type="submit" variant="raised" color="primary" className={classes.button}>
-                    Sign Up
+                    Create User
                 </Button>
 
                 {error && <p>{error.message}</p>}
